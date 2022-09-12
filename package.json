@@ -1,0 +1,21 @@
+{
+  "name": "reptile_website",
+  "description": "파충류 홈페이지(도마뱀)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "heroku-prebuild": "cd client && npm ci && npm run build && mv build ../server",
+    "start": "cd server && npm ci && tsc && node app.js", 
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guswlsakfls/Reptile_website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guswlsakfls/Reptile_website/issues"
+  },
+  "homepage": "https://github.com/guswlsakfls/Reptile_website#readme"
+}
