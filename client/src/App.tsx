@@ -1,10 +1,15 @@
-import './App.css'; 
+import { BrowserRouter as Router } from 'react-router-dom';
+import RoutesComponent from './Pages/Routes';
+import GlobalStyles from './Styles/GlobalStyles';
 
 function App() {
   return (
-    <div className="App">
-      파충류 홈페이지
-    </div>
+    <>
+		<GlobalStyles />
+		<Router>
+			<RoutesComponent />
+		</Router>
+	</>
   );
 }
 
