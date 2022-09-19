@@ -7,7 +7,7 @@
     "client-build": "cd client && npm ci && npm run build && cd ../",
     "server-build": "cd server && npm ci --dev && npm run build && cd ../",
     "heroku-prebuild": "npm run client-build && npm run server-build && mv ./client/build ./server/dist",
-    "start": "cd server && npm run start", 
+    "start": "cd server && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/guswlsakfls/Reptile_website/issues"
   },
-  "homepage": "https://github.com/guswlsakfls/Reptile_website#readme"
+  "homepage": "https://github.com/guswlsakfls/Reptile_website#readme",
+  "dependencies": {
+    "react-router-dom": "^6.4.0"
+  }
 }

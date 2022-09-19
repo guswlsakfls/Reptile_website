@@ -3,9 +3,9 @@ import styled from "styled-components";
 export default function Home() {
     return (
         <Div>
-            <DivCenter>
+            <Navbar>
                 <Title>심심할때 보는 유튜브 채널 링크 모아보기</Title>
-            </DivCenter>
+            </Navbar>
             <Container>
                 <Header>
                     header<br/>
@@ -20,7 +20,6 @@ export default function Home() {
                 </Divide>
                 <br/>
                 <BoxContainer>
-                    
                     box
                 </BoxContainer>
             </Container>
@@ -48,15 +47,14 @@ const Div = styled.div`
     padding-top: 90px;
 `
 
-const DivCenter = styled.header`
+const Navbar = styled.nav`
     border-bottom: 1px solid gray;
     background-color: RGB(42,42,42);
     position: fixed;
-    padding: 1rem 0rem;
+    padding: 20px 0rem;
     top: 0;
     right: 0;
     left: 0;
-    padding-left: 15px;
 `
 
 const Text = styled.span`
@@ -78,7 +76,7 @@ const Title = styled.nav`
         max-width: 540px;
     }
     color: white;
-    font-size: 3rem;
+    font-size: 30px;
     width: 100%;
     margin-right: auto;
     margin-left: auto;
