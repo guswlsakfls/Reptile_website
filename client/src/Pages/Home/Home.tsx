@@ -183,7 +183,6 @@ const Div = styled.div`
 `
 
 const Navbar = styled.nav`
-    border-bottom: 1px solid gray;
     background-color: ${mainColor};
     position: fixed;
     padding: 20px 0rem;
@@ -221,19 +220,15 @@ const Title = styled.nav`
 const Container = styled.div`
     @media (min-width: 1200px) {
         max-width: 1140px;
-        border: 1px solid blue;
     }
     @media (min-width: 992px) and (max-width: 1199px) {
         max-width: 960px;
-        border: 1px solid blue;
     }
     @media (min-width: 768px) and (max-width: 991px) {
         max-width: 720px;
-        border: 1px solid blue;
     }
     @media (min-width: 576px) and (max-width: 767px) {
         max-width: 540px;
-        border: 1px solid blue;
     }
     width: 100%;
     margin-right: auto;
