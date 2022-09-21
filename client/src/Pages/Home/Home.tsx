@@ -1,11 +1,11 @@
-import styled from "styled-components";
 import { Footer } from "../../Components/Common/Footer";
 import { Navbar } from "../../Components/Common/Navbar";
 import { CardButton } from "../../Components/Common/Button";
 import { CardContainer, CardBox, Card, CardBody, CardHeader, CardText, CardFooter } from "../../Components/Common/Card";
 import { Text } from "../../Components/Common/Text";
 import { Container, Header, HeaderTitle, HeaderBody, Divide, Div, SubTitle, Title } from "./Home.element";
-
+import axios from 'axios';
+import { useEffect } from "react";
 
 export default function Home() {
     let list = [];
@@ -38,6 +38,14 @@ export default function Home() {
                     </CardBox>  )
         i = i + 1;
     }
+
+    const callApi = async() => {
+        axios.get("http://localhost:5000/api")
+        .then((res) => console.log(res));
+    }
+    useEffect(() => {
+        callApi();
+    }, [])
 
     return (
         <Div>
