@@ -5,9 +5,11 @@ import { CardContainer, CardBox, Card, CardBody, CardHeader, CardText, CardFoote
 import { Text } from "../../Components/Common/Text";
 import { Container, Header, HeaderTitle, HeaderBody, Divide, Div, SubTitle, Title } from "./Home.element";
 import axios from 'axios';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+    const [title, setTitle] = useState();
+
     let list = [];
 
     let i = 0;
@@ -41,7 +43,10 @@ export default function Home() {
 
     const callApi = async() => {
         axios.get("http://localhost:5000/api")
-        .then((res) => console.log(res));
+        .then((res) => {
+            setTitle(res.data);
+            console.log(res)
+        });
     }
     useEffect(() => {
         callApi();
@@ -50,7 +55,7 @@ export default function Home() {
     return (
         <Div>
             <Navbar>
-                <Title>심심할때 보는 유튜브 채널 링크 모아보기</Title>
+                <Title>{title}</Title>
             </Navbar>
             <Container>
                 <Header>
