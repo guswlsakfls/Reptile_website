@@ -18,13 +18,10 @@ const router_1 = require("./routes/customer.routes");
 app.get('/', function (req, res, next) {
   if(req.path.split('/')[1] === 'static') return next();
   res.sendFile(path.resolve(__dirname + '/../dist/build/index.html'));
-  // res.status(200).send(path.resolve(__dirname + '/../dist/build/index.html'));
 })
-
-// require('./routes/customer.routes')();
 
 app.listen(PORT, () => {
     console.log(`server is running!\nport = ${PORT}`); 
 })
 
-app.use('/api', router_1);
+app.use('/', router_1);

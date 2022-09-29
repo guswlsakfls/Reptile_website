@@ -7,11 +7,10 @@ exports.create = (req: any, res: any) => {
             message: "Content can not be empty!"
         });
     };
-
     const customer = Customer({
-        id: req.body.id,
-        title: req.body.title,
-        body: req.body.body
+      id: req.body.id,
+      title: req.body.title,
+      body: req.body.body
     });
 
     // 데이터베이스에 저장
@@ -82,7 +81,7 @@ exports.update = (req: { body: { id: any; title: any; body: any; }; params: { cu
 };
 
 // id로 삭제
-exports.delete = (req: { params: { customerId: string; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
+exports.delete = (req: { params: { customerId: number; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
     Customer.remove(req.params.customerId, (err: { kind: string; }, data: any) => {
         if (err) {
           if (err.kind === "not_found") {

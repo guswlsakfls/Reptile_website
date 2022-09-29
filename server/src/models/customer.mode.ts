@@ -1,42 +1,44 @@
 import db  from './db';
 
-const Customer = function(this: any, customer: {
-    id: any; title: any; body: any; 
-}) {
-    this.id = customer.id;
-    this.title = customer.title;
-    this.body = customer.body;
+const Customer = (customer: {
+    id: number; title: string; body: string; 
+}) => {
+    const id = customer.id;
+    const title = customer.title;
+    const body = customer.body;
+    return ({id, title, body})
 }
 
 // customer 튜플 추가
 Customer.create = (newCustomer: any, result: any) => {
-    db.query("INSERT INTO cmarget.customers SET?", newCustomer, (err: any, res: {
-        insertId: any; "": any; 
-}) => {
+    db.query("INSERT INTO customers SET ?", newCustomer, (err: any, res) => {
         if (err) {
             console.log("err: ", err);
             result(err, null);
             return ;
         }
         console.log("Created customer: ", {id:res.insertId, ...newCustomer});
-        result(null, {id:res.insertId, ...newCustomer});
+        console.log('newCustomer');
+        result(null, res);
     });
 };
 
 // customer id로 조회
 Customer.findByID = (customerID: any, result: any) => {
-    db.query('SELECT * FROM cmarget.customers WHERE id = ?', customerID, (err, res) => {
+    db.query('SELECT * FROM cmarket.customers WHERE id = ?', customerID, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return ;
         }
+
+        result(null, res[0]);
     });
 };
 
 // customer 전체 조회
 Customer.getAll = (result: any) => {
-    db.query('SELECT * FROM cmarket.customers', (err, res) => {
+    db.query('SELECT * FROM customers', (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -49,7 +51,7 @@ Customer.getAll = (result: any) => {
 
 // customer id로 수정
 Customer.updateByID = (id: any, customer: any, result: any) => {
-    db.query('UPDATE cmarget.customers SET id = ?, title = ?, body = ? WHERE id = ?', 
+    db.query('UPDATE customers SET id = ?, title = ?, body = ? WHERE id = ?', 
     [customer.id, customer.title, customer.body, id], (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -66,7 +68,7 @@ Customer.updateByID = (id: any, customer: any, result: any) => {
 
 // customer id 로 삭제
 Customer.remove = (id: any, result: any) => {
-    db.query('DELETE FROM cmarget.customers WHERE id = ?', id, (err, res) => {
+    db.query('DELETE FROM customers WHERE id = ?', id, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -83,7 +85,7 @@ Customer.remove = (id: any, result: any) => {
 
 // customer 전체 삭제
 Customer.removeAll = (result: any) => {
-    db.query('DELETE FROM cmarget.customers', (err, res) => {
+    db.query('DELETE FROM customers', (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null)
