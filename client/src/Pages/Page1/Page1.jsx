@@ -51,6 +51,8 @@ export default function Page1() {
         let calRes = [];
         for (let i = 0; i < parent1.length; i += 2) {
                 tmpCol.push(parent1[i] + parent1[i + 1]);
+        }
+        for (let i = 0; i < parent2.length; i += 2) {
                 tmpRow.push(parent2[i] + parent2[i + 1]);
         }
 
@@ -63,11 +65,15 @@ export default function Page1() {
             for (let j = 0; j < row.length; j++) {
                 let tmp = "";
                 for (let k = 0; k < col[i].length; k++) {
-                    tmp += col[i][k] + row[j][k];
+                    tmp += col[i][k];
+                }
+                for (let k = 0; k < row[j].length; k++) {
+                    tmp += row[j][k];
                 }
                 calRes.push(tmp);
             }
         }
+        console.log(calRes);
 
         // ABCD ... xyz 순서로 정렬
         let traitList = [];
@@ -81,7 +87,8 @@ export default function Page1() {
             if (traitList.length === 0) {
                 traitList.push({
                     "name": calRes[i],
-                    "count": 1
+                    "count": 1,
+                    "percent": 0
                 });
             } else {
                 let flag = false;
@@ -100,7 +107,12 @@ export default function Page1() {
                 }
             }
         }
-        console.log(traitList);
+
+        // 확률 계산
+        for (let i = 0; i < traitList.length; i++) {
+            traitList[i].percent = (traitList[i].count / calRes.length) * 100;
+        }
+        setResult(traitList);
     }
 
     useEffect(() => {
@@ -129,11 +141,26 @@ export default function Page1() {
                     onChange={onChangeParent2}
                 />
                 <CardButton onClick={ calculate }>계산</CardButton><CardButton>삭제</CardButton>
-                <CalResBody>
-                    {parent1} x {parent2}
-                </CalResBody>
+                {/* item output to screen */}
                 <ResultBox>
-                    {/* {result[0]} */}
+                    <ResultTable>
+                        <ResultTableHead>
+                            <ResultTableHeadRow>
+                                <ResultTableHeadCol>유전자</ResultTableHeadCol>
+                                <ResultTableHeadCol>개수</ResultTableHeadCol>
+                                <ResultTableHeadCol>확률</ResultTableHeadCol>
+                            </ResultTableHeadRow>
+                        </ResultTableHead>
+                        <ResultTableBody>
+                            {result.map((item, index) => (
+                                <ResultTableBodyRow key={index}>
+                                    <ResultTableBodyCol>{item.name}</ResultTableBodyCol>
+                                    <ResultTableBodyCol>{item.count}</ResultTableBodyCol>
+                                    <ResultTableBodyCol>{item.percent}%</ResultTableBodyCol>
+                                </ResultTableBodyRow>
+                            ))}
+                        </ResultTableBody>
+                    </ResultTable>
                 </ResultBox>
             </Body>
         </Div>
@@ -145,14 +172,40 @@ const Body = styled.div`
     text-align: center;
 `
 
-const CalResBody = styled.div`
+const ResultBox = styled.div`
     margin-top: 100px;
     text-align: center;
     font-size: 50px;
 `
 
-const ResultBox = styled.div`
-    margin-top: 100px;
-    text-align: center;
-    font-size: 50px;
+const ResultTable = styled.table`
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 1px solid #000;
+`
+
+const ResultTableHead = styled.thead`
+    border: 1px solid #000;
+`
+
+const ResultTableHeadRow = styled.tr`
+    border: 1px solid #000;
+`
+
+const ResultTableHeadCol = styled.th`
+    border: 1px solid #000;
+    padding: 10px;
+`
+
+const ResultTableBody = styled.tbody`
+    border: 1px solid #000;
+`
+
+const ResultTableBodyRow = styled.tr`
+    border: 1px solid #000;
+`
+
+const ResultTableBodyCol = styled.td`
+    border: 1px solid #000;
+    padding: 10px;
 `
