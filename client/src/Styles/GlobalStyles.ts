@@ -8,7 +8,9 @@ export default createGlobalStyle`
     }
     html{
         font-size: 1vw;
-        background-color: RGB(23,23,23);
+        // background-color: RGB(23,23,23); // 나이트 모드
+        background-color: white;
+        color: black;
     }
     a{
         color: inherit;

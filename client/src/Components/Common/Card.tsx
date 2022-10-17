@@ -30,7 +30,8 @@ export const CardBox = styled.div`
 `
 
 export const Card = styled.div`
-    background-color: ${(props: {theme: any;}) => props.theme.color.basis};
+    background-color: ${(props: {theme: any;}) => props.theme.color.white};
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
     border-radius: 5px;
     text-align: center;
 `
@@ -41,7 +42,7 @@ export const CardBody = styled.div`
 
 export const CardHeader = styled.div`
     font-size: 30px;
-    color: white;
+    color: ${(props: { theme: any; }) => props.theme.color.mainText };
     margin-bottom: 10px;
     font-weight: 500;
 `

@@ -1,36 +1,33 @@
 import { Footer } from "../../Components/Common/Footer";
-import { Navbar } from "../../Components/Common/Navbar";
+import { Navbar, Title } from "../../Components/Common/Navbar";
 import { CardButton } from "../../Components/Common/Button";
 import { CardContainer } from "../../Components/Common/Card";
 import { Text } from "../../Components/Common/Text";
-import { Container, Header, HeaderTitle, HeaderBody, Divide, Div, SubTitle, Title } from "./Home.element";
-import { getAllCustomerApi } from '../../Components/Container/getApi';
-import { useState, useEffect } from 'react';
+import { Div } from "../../Components/Common/Body";
+import { Container, Header, HeaderTitle, HeaderBody, Divide, SubTitle } from "./Home.element";
 import { CardList } from "../../Components/Presentation/CardList";
+import { Link } from "react-router-dom";
 
 export default function Home() {
     return (
         <Div>
             <Navbar>
-                <Title>제목</Title>
+                <Title>도마뱀 사이트</Title>
             </Navbar>
             <Container>
-                <Header>
-                    <HeaderTitle>
-                        header
-                    </HeaderTitle>
-                    <HeaderBody>
-                        모프 계산기가 들어갈 것이다.
-                    </HeaderBody>
-                    <CardButton>
-                        <Text size={'20px'}>
-                            바로가기
-                        </Text>
-                    </CardButton>
-                </Header>
+                <Link to="/page1">
+                    <Header>
+                        <HeaderTitle>
+                            모프계산기
+                        </HeaderTitle>
+                        <HeaderBody>
+                            당신의 도마뱀을 계산해 보세요.
+                        </HeaderBody>
+                    </Header>
+                </Link>
                 <Divide>
                     <SubTitle>
-                        박스리스트
+                        브리더
                     </SubTitle>
                 </Divide>
                 <CardContainer>

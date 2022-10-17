@@ -20,8 +20,10 @@ export const Container = styled.div`
 `
 
 export const Header = styled.header`
-    background-color: ${(props: { theme: any; }) => props.theme.color.basis};
-    color: white;
+    background-color: ${(props: { theme: any; }) => props.theme.color.white };
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+    border-radius: 5px;
+    color: ${(props: { theme: any; }) => props.theme.color.mainText };
     padding: 60px 30px;
 `
 
@@ -44,36 +46,9 @@ export const Divide = styled.div`
     margin-bottom: 15px;
 `
 
-export const Div = styled.div`
-    padding-top: 90px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-`
-
 export const SubTitle = styled.span`
-    color: white;
+    color: ${(props: { theme: any; }) => props.theme.color.mainText };
     padding-left: 15px;
     font-size: 15px;
     font-weight: 700;
-`
-
-export const Title = styled.nav`
-    @media (min-width: 1200px) {
-        max-width: 1140px;
-    }
-    @media (min-width: 992px) and (max-width: 1199px) {
-        max-width: 960px;
-    }
-    @media (min-width: 768px) and (max-width: 991px) {
-        max-width: 720px;
-    }
-    @media (min-width: 576px) and (max-width: 767px) {
-        max-width: 540px;
-    }
-    color: white;
-    font-size: 30px;
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
 `

@@ -1,6 +1,5 @@
 import { CardBox, Card, CardBody, CardHeader, CardText, CardFooter } from "../Common/Card";
 import { Text } from "../Common/Text";
-import { CardButton } from "../Common/Button";
 import { useEffect, useState } from "react";
 import { getAllCustomerApi } from '../Container/getApi';
 
@@ -31,13 +30,6 @@ export function CardList() {
                                 </Text>
                             </CardText>
                         </CardBody>
-                        <CardFooter>
-                            <CardButton>
-                                <Text size = {'15px'}>
-                                    바로가기
-                                </Text>
-                            </CardButton>
-                        </CardFooter>
                     </Card>
             </CardBox>
         </div>
