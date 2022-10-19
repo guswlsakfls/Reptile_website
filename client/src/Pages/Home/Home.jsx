@@ -15,7 +15,7 @@ export default function Home() {
                 <Title>도마뱀 사이트</Title>
             </Navbar>
             <Container>
-                <Link to="/page1">
+                <Link to="/morph">
                     <Header>
                         <HeaderTitle>
                             모프계산기

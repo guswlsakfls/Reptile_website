@@ -1,0 +1,22 @@
+[
+    {
+      "name" : "oreo",
+      "type" : "recessive"
+    },
+    {
+      "name" : "whiteout",
+      "type" : "dominant"
+    },
+    {
+      "name" : "normal",
+      "type" : "dominant"
+    },
+    {
+      "name" : "stripe",
+      "type" : "dominant"
+    },
+    {
+      "name" : "zero",
+      "type" : "recessive"
+    }
+]

@@ -3,6 +3,8 @@ import { Div } from "../../Components/Common/Body"
 import styled from "styled-components"
 import {CardButton} from "../../Components/Common/Button"
 import { useState, useEffect } from "react";
+import gekoMorph from "./gekoMorph.json"
+import { calculate } from "./CalculateMorph";
 
 export default function Page1() {
     const [parent1, setParent1] = useState([]); // 부 유전자
@@ -17,106 +19,9 @@ export default function Page1() {
         setParent2(e.target.value);
     }
 
-    // dfs로 table.col 값 계산
-    function dfsCal(list, res, value, totalLength) {
-        if (list.length === 0) {
-            return (res);
-        }
-        let tmpRes = res;
-        let value1 = value;
-        let value2 = value;
-        let tmpListValue = list.shift();
-        let tmpList = JSON.parse(JSON.stringify(list));
-        value1 += tmpListValue[0];
-
-        if (value1.length === totalLength) {
-            tmpRes.push(value1);
-        }
-        tmpRes = dfsCal(tmpList, tmpRes, value1, totalLength);
-
-        value2 += tmpListValue[1];
-        if (value2.length === totalLength) {
-            tmpRes.push(value2);
-        }
-        return tmpRes = dfsCal(list, tmpRes, value2, totalLength);
-    }
-
-    // 자식 유전자 계산
-    const calculate = (e) => {
-        e.preventDefault(); // 이거 왜함?
-        let tmpCol = [];
-        let tmpRow = [];
-        let col = [];
-        let row = [];
-        let calRes = [];
-        for (let i = 0; i < parent1.length; i += 2) {
-                tmpCol.push(parent1[i] + parent1[i + 1]);
-        }
-        for (let i = 0; i < parent2.length; i += 2) {
-                tmpRow.push(parent2[i] + parent2[i + 1]);
-        }
-
-        // table col, row 계산
-        col = dfsCal(tmpCol, [], "", tmpCol.length);
-        row = dfsCal(tmpRow, [], "", tmpRow.length);
-
-        // punnett square 계산
-        for (let i = 0; i < col.length; i++) {
-            for (let j = 0; j < row.length; j++) {
-                let tmp = "";
-                for (let k = 0; k < col[i].length; k++) {
-                    tmp += col[i][k];
-                }
-                for (let k = 0; k < row[j].length; k++) {
-                    tmp += row[j][k];
-                }
-                calRes.push(tmp);
-            }
-        }
-        console.log(calRes);
-
-        // ABCD ... xyz 순서로 정렬
-        let traitList = [];
-        for (let i = 0; i < calRes.length; i++) {
-            calRes[i] = calRes[i].split('').sort().join('');
-        }
-
-        // 중복 제거 및 추가
-        for (let i = 0; i < calRes.length; i++) {
-            // 만약 리스트에 없으면 추가
-            if (traitList.length === 0) {
-                traitList.push({
-                    "name": calRes[i],
-                    "count": 1,
-                    "percent": 0
-                });
-            } else {
-                let flag = false;
-                for (let j = 0; j < traitList.length; j++) {
-                    if (traitList[j].name === calRes[i]) {
-                        traitList[j].count += 1;
-                        flag = true;
-                        break;
-                    }
-                }
-                if (!flag) {
-                    traitList.push({
-                        "name": calRes[i],
-                        "count": 1
-                    });
-                }
-            }
-        }
-
-        // 확률 계산
-        for (let i = 0; i < traitList.length; i++) {
-            traitList[i].percent = (traitList[i].count / calRes.length) * 100;
-        }
-        setResult(traitList);
-    }
-
     useEffect(() => {
         console.log(result);
+        // console.log(gekoMorph)
     }, [result]);
 
     return (
@@ -140,7 +45,7 @@ export default function Page1() {
                     placeholder="모 모프를 입력하세요."
                     onChange={onChangeParent2}
                 />
-                <CardButton onClick={ calculate }>계산</CardButton><CardButton>삭제</CardButton>
+                <CardButton onClick={(e) => {calculate(parent1, parent2, setResult, e)} } >계산</CardButton><CardButton>삭제</CardButton>
                 {/* item output to screen */}
                 <ResultBox>
                     <ResultTable>
