@@ -18,5 +18,13 @@
     {
       "name" : "zero",
       "type" : "recessive"
+    },
+    {
+      "name" : "caramel",
+      "type" : "recessive"
+    },
+    {
+      "name" : "ghost",
+      "type" : "recessive"
     }
 ]
