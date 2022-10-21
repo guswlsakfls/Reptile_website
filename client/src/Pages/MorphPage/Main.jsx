@@ -3,7 +3,6 @@ import { Div } from "../../Components/Common/Body"
 import styled from "styled-components"
 import {CardButton} from "../../Components/Common/Button"
 import { useState, useEffect } from "react";
-import gekoMorph from "./gekoMorph.json"
 import { calculate } from "./CalculateMorph";
 
 export default function Page1() {
