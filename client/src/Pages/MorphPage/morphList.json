@@ -1,4 +1,8 @@
-[
+[    
+    {
+      "name" : "Normal",
+      "type" : "dominant"
+    },
     {
       "name" : "Oreo",
       "type" : "recessive"

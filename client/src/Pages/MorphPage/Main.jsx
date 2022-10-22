@@ -20,7 +20,6 @@ export default function Page1() {
 
     useEffect(() => {
         console.log(result);
-        // console.log(gekoMorph)
     }, [result]);
 
     return (
@@ -58,8 +57,8 @@ export default function Page1() {
                         <ResultTableBody>
                             {result.map((item, index) => (
                                 <ResultTableBodyRow key={index}>
-                                    <ResultTableBodyCol>{item.name}</ResultTableBodyCol>
-                                    <ResultTableBodyCol>{item.count}</ResultTableBodyCol>
+                                    <ResultTableBodyCol>{item.visual}{item.hetName}</ResultTableBodyCol>
+                                    <ResultTableBodyCol>{item.allCount}</ResultTableBodyCol>
                                     <ResultTableBodyCol>{item.percent}%</ResultTableBodyCol>
                                 </ResultTableBodyRow>
                             ))}
