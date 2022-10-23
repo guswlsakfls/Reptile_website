@@ -28,11 +28,10 @@ const checkName = (gene, alphaValues) => {
     let inputMorphList = [];
     let inputList = [];
 
-    // inputList에 input문자열을 배열로 넣기
-    inputList = gene.split(';');
+    inputList = gene;
     console.log(inputList.length);
 
-    if (inputList.length === 1) {
+    if (inputList.length === 0) {
         inputMorphList.push({
             "name": "Normal",
             "alphaCode": 'N',
@@ -105,6 +104,9 @@ export const calculate = (gene1, gene2, setResult, e) => {
         "uppercase": 65,
         "lowercase": 97
     };
+
+    console.log(gene1);
+    console.log(gene2);
 
     geneList1 = checkName(gene1, alphaValues); // gnenList1 = {name: oreo, alphaCode: A, character: super or het}, {name: stripe, alphaCode: a}
     geneList2 = checkName(gene2, alphaValues);
