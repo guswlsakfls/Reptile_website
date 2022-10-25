@@ -5,5 +5,5 @@ export const Div = styled.div`
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: ${(props: { theme: any; }) => props.theme.color.background};
+    background-color: ${(props) => props.theme.color.background};
 `

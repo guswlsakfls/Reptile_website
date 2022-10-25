@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
 export const Footer = styled.div`
-    background-color: ${(props: { theme: any; }) => props.theme.color.white};
-    color: ${(props: { theme: any; }) => props.theme.color.black};
+    background-color: ${(props) => props.theme.color.white};
+    color: ${(props) => props.theme.color.black};
     padding: 30px 0px ;
     text-align: center;
     font-size: 15px;

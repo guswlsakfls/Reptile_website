@@ -1,6 +1,6 @@
 import morphList from './morphList.json';
 
-// dfs로 table.col 값 계산
+// dfs로 table col row 값 계산
 export function dfsCal(list, res, value, totalLength) {
     if (list.length === 0) {
         return (res);
@@ -24,16 +24,16 @@ export function dfsCal(list, res, value, totalLength) {
     return tmpRes = dfsCal(list, tmpRes, value2, totalLength);
 }
 
+// input 리스트 받아서 있는 모프면 데이터 입력
 const checkName = (gene, alphaValues) => {
     let inputMorphList = [];
     let inputList = [];
 
     inputList = gene;
-    console.log(inputList.length);
 
     if (inputList.length === 0) {
         inputMorphList.push({
-            "name": "Normal",
+            "engName": "Normal",
             "alphaCode": 'N',
             "type": "dominant",
             "character": "Normal"
@@ -43,9 +43,9 @@ const checkName = (gene, alphaValues) => {
         for (let i = 0; i < inputList.length; i++) {
         morphList.forEach((item) => {
             // 우성 유전자
-            if (item.name === inputList[i] && item.type === 'dominant') {
+            if (item.engName === inputList[i] && item.type === 'dominant') {
                 inputMorphList.push({
-                    "name" : item.name,
+                    "engName" : item.engName,
                     "alphaCode" : String.fromCharCode(alphaValues.uppercase),
                     "type" : item.type,
                     "character" : ""
@@ -54,9 +54,9 @@ const checkName = (gene, alphaValues) => {
                 return;
             }
             // 열성 유전자
-            else if (item.name === inputList[i]) {
+            else if (item.engName === inputList[i]) {
                 inputMorphList.push({
-                    "name" : item.name,
+                    "engName" : item.engName,
                     "alphaCode" : String.fromCharCode(alphaValues.lowercase),
                     "type" : item.type,
                     "character" : ""
@@ -65,9 +65,9 @@ const checkName = (gene, alphaValues) => {
                 return;
             }
             // super 유전자일 경우
-            else if (("Super" + item.name) === inputList[i]) {
+            else if (("Super" + item.engName) === inputList[i]) {
                 inputMorphList.push({
-                    "name" : item.name,
+                    "engName" : item.engName,
                     "alphaCode" : String.fromCharCode(alphaValues.uppercase),
                     "type" : item.type,
                     "character" : "Super"
@@ -76,9 +76,9 @@ const checkName = (gene, alphaValues) => {
                 return;
             }
             // het 유전자일 경우
-            else if (("Het" + item.name) === inputList[i]) {
+            else if (("Het" + item.engName) === inputList[i]) {
                 inputMorphList.push({
-                    "name" : item.name,
+                    "engName" : item.engName,
                     "alphaCode" : String.fromCharCode(alphaValues.lowercase),
                     "type" : item.type,
                     "character" : "Het"
@@ -88,12 +88,46 @@ const checkName = (gene, alphaValues) => {
             }
         });}
     }
-    return (inputMorphList);
+    // 중복 제거, 예시) 오레오, 헷오레오 -> 헷오레오 제거
+    let result = inputMorphList.filter((item1, idx1)=>{
+        return inputMorphList.findIndex((item2, idx2)=>{
+            return item1.engName === item2.engName;
+        }) === idx1;
+    });
+    return (result);
+    // return (inputMorphList);
+}
+
+// 한국어 -> 영어로 변환
+const convertKorToEng = (inputList) => {
+    let tmp = JSON.parse(JSON.stringify(inputList)); // 깊은 복사, 화면에 보여지는 원본값 변경 방지
+    tmp.forEach((item, i) => {
+        morphList.forEach((morph) => {
+            if (item.includes(morph.korName)) {
+                if (item.includes("슈퍼")){
+                    tmp[i] = ("Super" + morph.engName);
+                }
+                else if (item.includes("헷")){
+                    tmp[i] = ("Het" + morph.engName);
+                }
+                else {
+                    tmp[i] = (morph.engName);
+                }
+            }
+        });
+    });
+    return (tmp);
 }
 
 // 자식 유전자 계산
 export const calculate = (gene1, gene2, setResult, e) => {
-    // gene1, gene2 예시) oreo;stripe, stripe
+    // gene1, gene2 예시) ["오레오", "스트라이프"] 또는 ["Oreo", "Stripe"]
+
+    let geneEng1 = convertKorToEng(gene1);
+    let geneEng2 = convertKorToEng(gene2);
+
+    console.log(geneEng1);
+    console.log(geneEng2);
 
     e.preventDefault(); // 이거 왜함?
     let parent1;
@@ -105,18 +139,16 @@ export const calculate = (gene1, gene2, setResult, e) => {
         "lowercase": 97
     };
 
-    console.log(gene1);
-    console.log(gene2);
 
-    geneList1 = checkName(gene1, alphaValues); // gnenList1 = {name: oreo, alphaCode: A, character: super or het}, {name: stripe, alphaCode: a}
-    geneList2 = checkName(gene2, alphaValues);
+    geneList1 = checkName(geneEng1, alphaValues); // gnenList1 = {engName: oreo, alphaCode: A, character: super or het}, {engName: stripe, alphaCode: a}
+    geneList2 = checkName(geneEng2, alphaValues);
     console.log(geneList1);
     console.log(geneList2);
 
     // 중복 체크 (중복되는 유전자가 있으면 같은 부모로 간주)
     for (let i = 0; i < geneList1.length; i++) {
         for (let j = 0; j < geneList2.length; j++) {
-            if (geneList1[i].name === geneList2[j].name) {
+            if (geneList1[i].engName === geneList2[j].engName) {
                 geneList2[j].alphaCode = geneList1[i].alphaCode;;
             }
         }
@@ -217,7 +249,7 @@ export const calculate = (gene1, gene2, setResult, e) => {
         if (traitList.length === 0) {
             traitList.push({
                 "alphaCode": calRes[i],
-                "name": "",
+                "engName": "",
                 "percent": 0,
                 "count": 1
             });
@@ -236,7 +268,7 @@ export const calculate = (gene1, gene2, setResult, e) => {
             if (!flag) {
                 traitList.push({
                     "alphaCode": calRes[i],
-                    "name": "",
+                    "engName": "",
                     "count": 1,
                     "percent": 0
                 });
@@ -252,7 +284,7 @@ export const calculate = (gene1, gene2, setResult, e) => {
     geneList2.forEach((item) => {
         let flag = false;
         for (let i = 0; i < mixGeneList.length; i++) {
-            if (mixGeneList[i].name === item.name) {
+            if (mixGeneList[i].engName === item.engName) {
                 flag = true;
             }
         }
@@ -268,7 +300,7 @@ export const calculate = (gene1, gene2, setResult, e) => {
         if (item.type === "recessive") {
             if (hetGeneList === []) {
                 hetGeneList.push({
-                    "name": item.name,
+                    "engName": item.engName,
                     "alphaCode": item.alphaCode,
                     "character": item.character
                 });
@@ -292,37 +324,37 @@ export const calculate = (gene1, gene2, setResult, e) => {
                     if (traitList[i].alphaCode[j] === traitList[i].alphaCode[j].toUpperCase()) {
                         // 우성에서 마지막 알파벳이면
                         if (maxLength === j + 1 || traitList[i].alphaCode[j] !== traitList[i].alphaCode[j + 1]) {
-                            tmp += mixGeneList[k].name + ';';
+                            tmp += mixGeneList[k].engName + ';';
                             break;
                         }
                         // 우성 대문자 두개면
                         else if (traitList[i].alphaCode[j] === traitList[i].alphaCode[j + 1]) {
-                            tmp += "Super " + mixGeneList[k].name + ';';
+                            tmp += "Super " + mixGeneList[k].engName + ';';
                             j += 1;
                             break;
                         }
                         // 우성 대문자 하고 뒤에 'N' 이면
                         else if (traitList[i].alphaCode[j + 1] === 'N') {
-                            tmp += mixGeneList[k].name + ';';
+                            tmp += mixGeneList[k].engName + ';';
                             j += 1;
                             break;
                         }
                     }
                     // 발현되는 열성
                     else if (traitList[i].alphaCode[j+1] !== null && traitList[i].alphaCode[j] === traitList[i].alphaCode[j+1]) {
-                        tmp += mixGeneList[k].name + ';';
+                        tmp += mixGeneList[k].engName + ';';
                         j += 1;
                         break;
                     }
                 }
             }
         }
-        traitList[i].name = tmp;
+        traitList[i].engName = tmp;
     }
     
-    // 발현되는 모프 별로 분류 및 대표 인덱스 찾기 ex) morphList = { {name: "Oreo;Stipe", "allCount": 3}, {name: "Stripe", "allCount": 3} }
+    // 발현되는 모프 별로 분류 및 대표 인덱스 찾기 ex) morphList = { {engName: "Oreo;Stipe", "allCount": 3}, {engName: "Stripe", "allCount": 3} }
     let morphList = [{
-        "visual" : traitList[0].name,
+        "visual" : traitList[0].engName,
         "hetName" : "",
         "alphaCode" : traitList[0].alphaCode,
         "allCount" : traitList[0].count,
@@ -336,7 +368,7 @@ export const calculate = (gene1, gene2, setResult, e) => {
         let flag = false;
         
         for (let j = 0; j < morphList.length; j++) {
-            if (morphList[j].visual === traitList[i].name) {
+            if (morphList[j].visual === traitList[i].engName) {
                 morphList[j].allCount += traitList[i].count;
                 flag = true;
                 break;
@@ -344,7 +376,7 @@ export const calculate = (gene1, gene2, setResult, e) => {
         }
         if (flag === false) {
             morphList.push({
-                "visual": traitList[i].name,
+                "visual": traitList[i].engName,
                 "hetName": "",
                 "alphaCode": traitList[i].alphaCode,
                 "allCount": traitList[i].count,
@@ -408,13 +440,13 @@ export const calculate = (gene1, gene2, setResult, e) => {
             hetGeneList.forEach((hetGene) => {
                 if (item.alphaCode === hetGene.alphaCode) {
                     if (item.het === 100) {
-                        het100 += hetGene.name + ' ';
+                        het100 += hetGene.engName + ' ';
                     }
                     else if (item.het === 67) {
-                        het66 += hetGene.name + ' ';
+                        het66 += hetGene.engName + ' ';
                     }
                     else if (item.het === 50) {
-                        het50 += hetGene.name + ' ';
+                        het50 += hetGene.engName + ' ';
                     }
                 }
             });
@@ -430,9 +462,6 @@ export const calculate = (gene1, gene2, setResult, e) => {
         if (het50 !== "") {
             morphList[i].hetName += "50% Het " + het50;
         }
-        console.log(het100);
-        console.log(het66);
-        console.log(het50);
     }
     
     // 각 콤보 모프 확률 계산
@@ -440,6 +469,5 @@ export const calculate = (gene1, gene2, setResult, e) => {
         morphList[i].percent = (morphList[i].allCount / totalLength) * 100;
     }
 
-    console.log(morphList);
     setResult(morphList);
 }

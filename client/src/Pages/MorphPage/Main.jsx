@@ -5,54 +5,15 @@ import { CardButton } from "../../Components/Common/Button"
 import { useState, useEffect } from "react";
 import { calculate } from "./CalculateMorph";
 import AddMorphName from "./MorphFuc";
+import morphList from "./morphList.json";
+import AutoCompleteInput from "./AutoCompleteInput";
 
 export default function Page1() {
     const [parent1, setParent1] = useState(""); // 부 유전자
     const [parentList1, setParentList1] = useState([]); // 부 유전자 리스트
     const [parent2, setParent2] = useState(""); // 모 유전자
     const [parentList2, setParentList2] = useState([]); // 모 유전자 리스트
-    const [result, setResult] = useState([]); // 결과
-
-    // 부모 유전자 입력
-    const onChangeParent1 = (e) => {
-        setParent1(e.target.value);
-    }
-    const onChangeParent2 = (e) => {
-        setParent2(e.target.value);
-    }
-
-    const onKeyPress1 = (e) => {
-        if (e.isComposing) return ;
-        if (e.key === "Enter") {
-            if (parent1 !== "") {
-                setParentList1([...parentList1, parent1]);
-                setParent1("");
-            }
-        }
-    }
-
-    const onBlurParent1 = (e) => {
-        if (parent1 !== "") {
-            setParentList1([...parentList1, parent1]);
-            setParent1("");
-        }
-    }
-
-    const onBlurParent2 = (e) => {
-        if (parent2 !== "") {
-            setParentList2([...parentList2, parent2]);
-            setParent2("");
-        }
-    }
-
-    const onKeyPress2 = (e) => {
-        if (e.key === "Enter") {
-            if (parent2 !== "") {
-                setParentList2([...parentList2, parent2]);
-                setParent2("");
-            }
-        }
-    }
+    const [result, setResult] = useState([]); // 결과    
 
     const deletAllInput = (e) => {
         setParentList1([]);
@@ -60,12 +21,8 @@ export default function Page1() {
     }
 
     useEffect(() => {
-        console.log(result);
-    }, [result]);
 
-    console.log(parentList1);
-    console.log(parent1);
-    console.log(parentList2);
+    }, );
 
     return (
         <Div>
@@ -77,15 +34,31 @@ export default function Page1() {
                 <h2>번식할 때 짝을 이룰 두 부모 모프를 입력하면 계산기가 유전적 가능성을 표시합니다.</h2><br/>
                 <InputContiner>
                     <Ul>
-                        <AddMorphName morphList={parentList1} setMorphList={setParentList1}></AddMorphName>
-                        <input type="text" placeholder="부모 유전자" value={parent1} onKeyPress={onKeyPress1} onBlur={onBlurParent1} onChange={onChangeParent1}/>
+                        <AddMorphName
+                            morphList={parentList1}
+                            setMorphList={setParentList1}>
+                        </AddMorphName>
+                        <AutoCompleteInput
+                            parent={parent1}
+                            setParent={setParent1}
+                            parentList={parentList1}
+                            setParentList={setParentList1}>
+                        </AutoCompleteInput>
                     </Ul>
                 </InputContiner>
                 x
                 <InputContiner>
                     <Ul>
-                        <AddMorphName morphList={parentList2} setMorphList={setParentList2}></AddMorphName>
-                        <input type="text" placeholder="부모 유전자" value={parent2} onKeyPress={onKeyPress2} onBlur={onBlurParent2} onChange={onChangeParent2} />
+                        <AddMorphName
+                            morphList={parentList2}
+                            setMorphList={setParentList2}>
+                        </AddMorphName>
+                        <AutoCompleteInput
+                            parent={parent2}
+                            setParent={setParent2}
+                            parentList={parentList2}
+                            setParentList={setParentList2}>
+                        </AutoCompleteInput>
                     </Ul>
                 </InputContiner>
                 <CardButton onClick={(e) => {calculate(parentList1, parentList2, setResult, e)} } >계산</CardButton>
@@ -131,6 +104,11 @@ const Ul = styled.ul`
     padding: 0;
     margin: 0;
 }
+`
+
+const Datalist = styled.datalist`
+    max-height: 20em;
+    cursor: pointer;
 `
 
 // 여기 까지 연습

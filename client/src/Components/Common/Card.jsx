@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.div`
-    background-color: ${(props: {theme: any;}) => props.theme.color.background};
+    background-color: ${(props) => props.theme.color.background};
     display: flex;
     flex-wrap: wrap;
     margin-right: -15px;
@@ -24,13 +24,13 @@ export const CardBox = styled.div`
         max-width: 540px;
         flex-basis: 100%;
     }
-    background-color: ${(props: {theme: any;}) => props.theme.color.background};
+    background-color: ${(props) => props.theme.color.background};
     margin-bottom: 30px;
     padding: 0 15px;
 `
 
 export const Card = styled.div`
-    background-color: ${(props: {theme: any;}) => props.theme.color.white};
+    background-color: ${(props) => props.theme.color.white};
     box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
     border-radius: 5px;
     text-align: center;
@@ -42,7 +42,7 @@ export const CardBody = styled.div`
 
 export const CardHeader = styled.div`
     font-size: 30px;
-    color: ${(props: { theme: any; }) => props.theme.color.mainText };
+    color: ${(props) => props.theme.color.mainText };
     margin-bottom: 10px;
     font-weight: 500;
 `
@@ -53,7 +53,7 @@ export const CardText = styled.div`
 `
 
 export const CardFooter = styled.div`
-    background-color: ${(props: {theme: any;}) => props.theme.color.cardFooter};
+    background-color: ${(props) => props.theme.color.cardFooter};
     padding: 15px 0;
     border-radius: 0px 0px 5px 5px;
 `

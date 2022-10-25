@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Navbar = styled.nav`
-    background-color: ${ (props: {theme: any;}) => props.theme.color.background };
+    background-color: ${ (props) => props.theme.color.background };
     border-bottom: 1px solid black;
     position: fixed;
     padding: 20px 0rem;
@@ -23,7 +23,7 @@ export const Title = styled.nav`
     @media (min-width: 576px) and (max-width: 767px) {
         max-width: 540px;
     }
-    color: ${ (props: {theme: any;}) => props.theme.color.text };
+    color: ${ (props) => props.theme.color.text };
     font-size: 30px;
     width: 100%;
     margin-right: auto;
