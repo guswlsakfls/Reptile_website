@@ -3,4 +3,4 @@
 - 모프계산기
 
 # 서버
-Heroku(Node.js, express)
+aws, EB(Node.js, express)
