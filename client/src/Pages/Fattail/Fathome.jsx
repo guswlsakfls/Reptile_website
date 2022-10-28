@@ -1,33 +1,23 @@
-import { Navbar, Title } from "../../Components/Common/Navbar";
-import { CardButton } from "../../Components/Common/Button";
-import { CardContainer } from "../../Components/Common/Card";
-import { Text } from "../../Components/Common/Text";
-import { Div } from "../../Components/Common/Body";
-import { Reptilepage } from "../../Components/Common/page";
-import { Gridmain } from "../../Components/Common/Gridmain";
-import { Container, Header, HeaderTitle, HeaderBody, Divide, SubTitle } from "./Home.element";
-import { CardList } from "../../Components/Presentation/CardList";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Fatgrid } from "./Fatgrid"; 
+import { Link } from "react-router-dom";
 
-export default function Home() {
-    return (            
-			<Gridmain>
-				<Headera>logo</Headera>
- 				<ContentBox>
-     				<Content1 to="/fathome">FattailGecko</Content1>
-     				<Content2>Content2</Content2>
-     				<Content3>Content3</Content3>
-				</ContentBox>
-				<ContentBox2>
-     				<Content4>Content4</Content4>
-     				<Content5>Content5</Content5>
-     				<Content6>Content6</Content6>
-				</ContentBox2>
-				<Footer>문의 irang4605@naver.com </Footer>
-			</Gridmain>
-    );
-};
+
+export function Fathome(){
+	return(
+		<Fatgrid>
+			<Headera>logo</Headera>
+			<SideBar>사이드 바</SideBar>
+		<ContentBox>
+			<Content1 to="/morph">펫테일 모프계산기</Content1>
+			<Content2>모프 소개</Content2>
+			<Content3>자유 게시판</Content3>
+	   </ContentBox>
+	   <Footer>문의 irang4605@naver.com </Footer>
+		</Fatgrid>
+	);
+}
+
 
 const Headera = styled.div`
 	background : green;
@@ -68,6 +58,7 @@ const ContentBox2 = styled.div`
   grid-area: content2;
   justify-content: center;
 `;
+
 const Content1 = styled(Link)`
   background: #a6b8b9;
   color: white;
