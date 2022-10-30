@@ -76,40 +76,27 @@ jobs:
 
       - name: Gnerate Bundle File
 
-        run: npm run build
+        run: npm run build 
 
- 
 
-      - name: check dir
+#       - name: Deploy to EB
 
-        run: cd build && ls -al
+#         uses: einaregilsson/beanstalk-deploy@v10
 
- 
+#         with:
 
-      - name: Generate deployment package
+#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
 
-        run: cd build && zip -r deploy.zip .
+#           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
- 
+#           application_name: cp-admin-client
 
-      - name: Deploy to EB
+#           environment_name: cp-client-dev
 
-        uses: einaregilsson/beanstalk-deploy@v10
+#           version_label: ${{github.run_number}}
 
-        with:
+#           use_existing_version_if_available: true
 
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           region: ap-northeast-2
 
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-          application_name: cp-admin-client
-
-          environment_name: cp-client-dev
-
-          version_label: ${{github.run_number}}
-
-          use_existing_version_if_available: true
-
-          region: ap-northeast-2
-
-          deployment_package: build/deploy.zip
+#           deployment_package: build/deploy.zip
