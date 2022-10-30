@@ -74,7 +74,7 @@ jobs:
 
  
 
-      - name: Gnerate Bundle File
+      - name: Build
 
         run: npm run build 
 
