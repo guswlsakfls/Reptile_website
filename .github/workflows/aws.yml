@@ -79,24 +79,12 @@ jobs:
         run: CI='' npm run build 
 
 
-      - name: Deploy to EB
-
-        uses: einaregilsson/beanstalk-deploy@v10
-
-        with:
-
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-#           application_name: cp-admin-client
-
-#           environment_name: cp-client-dev
-
-#           version_label: ${{github.run_number}}
-
-#           use_existing_version_if_available: true
-
-#           region: ap-northeast-2
-
-#           deployment_package: build/deploy.zip
+      - name: Deploy # S3에 배포하기
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp \
+            --recursive \
+            --region ap-northeast-2 \
+            build s3://chorok-test
