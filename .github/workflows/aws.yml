@@ -87,4 +87,4 @@ jobs:
           aws s3 cp \
             --recursive \
             --region ap-northeast-2 \
-            build s3://chorok-test
+            build s3://elasticbeanstalk-ap-northeast-2-741369898426
