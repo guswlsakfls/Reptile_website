@@ -54,7 +54,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run build
-        run: npm run build
+        run: CI=false npm run build
 
   deploy:
     name: CD Pipeline
@@ -89,7 +89,7 @@ jobs:
       # 필자는 TS 파일들을 빌드해서 dist 폴더에 js 파일들을 만들기 때문에
       # 아래에서 zip 파일 구성 시 src 폴더를 제외한 것을 확인할 수 있다.
       - name: Run build
-        run: npm run build
+        run: CI=false npm run build
 
       # Install AWS CLI 2
       - name: Install AWS CLI 2
