@@ -39,7 +39,7 @@ jobs:
     strategy:
     # Node version은 12 버전을 이용한다.
       matrix:
-        node-version: ['16.x']
+        node-version: ['12.x']
 
     steps:
       - uses: actions/checkout@v2
@@ -62,7 +62,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ['16.x']
+        node-version: ['12.x']
 
     needs: buildAndTest
     steps:
@@ -121,6 +121,6 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: test-server
           environment_name: Testserver-env
-          aws-region: ${{ secrets.AWS_REGION }}
+          region: ${{ secrets.AWS_REGION }}
           version_label: ${{github.SHA}}
           deployment_package: deploy.zip
