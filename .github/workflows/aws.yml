@@ -109,7 +109,7 @@ jobs:
       # Make ZIP file with source code
       # -x는 zip파일 생성 시에 해당 부분들을 제외한다.
       - name: Generate deployment package
-        run: zip -r deploy.zip . -x './server/*.git*' './server/src/*' './server/aws/*' awscliv2.zip
+        run: zip -r deploy.zip ./server/. -x './server/*.git*' './server/src/*' './server/aws/*' awscliv2.zip
 
       # Deploy to Elastic Beanstalk
       # application_name과 environment_name을 꼭 확인하자!
