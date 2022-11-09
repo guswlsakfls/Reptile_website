@@ -6,13 +6,13 @@
   "scripts": {
     "client-build": "cd client && npm ci && npm run build && cd ../",
     "server-build": "cd server && npm ci --dev && npm run build && cd ../",
-    "heroku-prebuild": "npm run client-build && npm run server-build && mv ./client/build ./server/dist",
+    "build": "npm run client-build && npm run server-build && mv ./client/build ./server/dist",
     "start": "cd server && npm run start",
     "dev": "npm-run-all --parallel dev:**",
     "dev:client": "cd client && npm start && cd ../",
     "dev:server": "cd server && npm run dev",
     "remove": "rm -rf ./server/dist/build",
-    "all": "npm run remove && npm run heroku-prebuild && npm run start"
+    "all": "npm run remove && npm run build && npm run start"
   },
   "repository": {
     "type": "git",
