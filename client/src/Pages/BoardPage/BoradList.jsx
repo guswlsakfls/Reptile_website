@@ -1,51 +1,62 @@
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getAllFreeBoard } from "../../Components/Container/getApi";
 
 export default function BoardList() {
 
+    const [boardList, setBoardList] = useState([]);
+
+    useEffect(() => {
+        getAllFreeBoard()
+        .then(res => {setBoardList(res);})
+        .catch(err => console.log(err));
+    }, [])
+    
     return (
         <>
-            <table>
+            <Table>
                 <thead>
                     <tr>
-                        <th>선택</th>
                         <th>번호</th>
+                        <th>구분</th>
                         <th>제목</th>
                         <th>작성자</th>
                         <th>작성일</th>
+                        <th>조회</th>
+                        <th>좋아요</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <input type="checkbox"></input>
-                        </td>
-                        <td>1</td>
-                        <td>게시글1</td>
-                        <td>artistJay</td>
-                        <td>2022-03-19</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox"></input>
-                        </td>
-                        <td>2</td>
-                        <td>게시글2</td>
-                        <td>artistJay</td>
-                        <td>2022-03-19</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox"></input>
-                        </td>
-                        <td>3</td>
-                        <td>게시글2</td>
-                        <td>artistJay</td>
-                        <td>2022-03-19</td>
-                    </tr>
+                    {boardList.map((item) => (
+                        <tr key={item.id}>
+                            <td>{item.id}</td>
+                            <td>{item.type}</td>
+                            <td><Link to="/board/write">{item.title}</Link></td>
+                            <td>{item.nickName}</td>
+                            <td>{item.date}</td>
+                            <td>{item.view}</td>
+                            <td>{item.like}</td>
+                        </tr>
+                    ))}
                 </tbody>
-            </table>
-            <button>글쓰기</button>
-            <button>수정하기</button>
-            <button>삭제하기</button>
+            </Table>
         </>
     );
 };
+
+const Table = styled.table`
+    width: 100%;
+    /* border-collapse: collapse; */
+    border: 1px solid #000;
+    th {
+        border: 1px solid #000;
+        padding: 10px;
+        text-align: center;
+    }
+    td {
+        border: 1px solid #000;
+        padding: 10px;
+        text-align: center;
+    }
+`;

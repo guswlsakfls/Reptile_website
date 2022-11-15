@@ -1,25 +1,97 @@
+import { useRef, useState, useEffect } from "react";
+import styled from "styled-components";
+import Navbar from "../../Components/Common/Navbar";
+import { Body, Container } from "../../Components/Common/Body";
+import TextEditor from "./TextEditor";
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import { postFreeBoard } from "../../Components/Container/getApi";
+import moment from "moment";
+import 'moment/locale/ko';
+import ViewerPage from "./ViewerPage";
 
-export default function BoardList() {
+export default function AddForm ({ addTodo }) {
+    const [title, setTitle] = useState('');
+    const [text, setText] = useState('');
+    const [data, setData] = useState([{
+        id: '',
+        type: '',
+        title: '',
+        nickName: '',
+        date: '',
+        view: '',
+        like: '',
+        text: '',
+    }]);
+    const input = useRef(null);
+    
+    useEffect(() => {
+        input.current.focus();
+    }, []);
 
+    useEffect(() => {
+        setData({
+            type: '공지',
+            title: title,
+            nickName: '운영자',
+            date: moment().format('YYYY-MM-DD HH:mm:ss'),
+            view: 0,
+            like: 0,
+            text: text,
+        });
+    }, [title, text]);
+
+    const onChangeInput = (e) => {
+        setTitle(e.target.value);
+    };
+    
+    // 제출 이벤트 핸들러
     const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(e.target);
-    }
+        e.preventDefault(); // 뭔 차이지..
+        console.log(data);
 
+        postFreeBoard(data)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    }
+    
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <label>제목</label>
-                    <control type="email" placeholder="name@example.com" />
-                </group>
-                <group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                    <label>내용</label>
-                    <control as="textarea" />
-                </group>
-            </form>
-            <button >작성완료</button>
-            <button variant="secondary">취소</button>
+            <Body>
+                <Container>
+                    <br></br>
+                    <h1>
+                        카페 글쓰기
+                    </h1>
+                    <hr></hr>
+                    <br></br>
+                    <Navbar />
+                    <form onSubmit={handleSubmit}>
+                        <h3>제목</h3>
+                        <input type="text" placeholder="제목을 입력해주세요." ref={input} value={title} onChange={onChangeInput} />
+                        <br></br>
+                        <br></br>
+                        <TextEditor setText={setText}></TextEditor>
+                        <br></br>
+                        <div>
+                            <Button type="submit">작성완료</Button>
+                        </div>
+                    </form>
+                </Container>
+            </Body>
         </>
     );
 };
+
+const Button = styled.button`
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #000;
+    border-radius: 3px;
+    color: #000;
+    text-decoration: none;
+    &:hover {
+        background-color: #000;
+        color: #fff;
+        cursor: pointer;
+    }
+`;

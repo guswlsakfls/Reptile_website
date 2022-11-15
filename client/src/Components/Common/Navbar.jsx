@@ -10,10 +10,23 @@ const Navbar = () => {
     <>
       <Container>
         <NavContainer>
-            <Logo onClick={() => navigate("/")}>
-                <img src={logo}></img>
-            </Logo>
-            <div>
+            <MenuList>
+                <MenuListContent
+                onClick={() => navigate("/")}
+                >
+                    <Logo>
+                        <img src={logo}></img>
+                    </Logo>
+                </MenuListContent>
+                <MenuListContent
+                isPathMatch={pathname === "/" ? true : false} // 홈화면일때 타이틀 색깔 바뀌는거도 괜찮을 듯?
+                onClick={() => navigate("/")}
+                >
+                    <TitleAuto>
+                        KoLab
+                    </TitleAuto>
+                </MenuListContent>
+            </MenuList>
             <MenuList>
                 <MenuListContent
                 isPathMatch={pathname === "/board" ? true : false}
@@ -34,7 +47,6 @@ const Navbar = () => {
                 로그인
                 </MenuListContent>
             </MenuList>
-            </div>
         </NavContainer>
       </Container>
     </>
@@ -76,7 +88,6 @@ const Logo = styled.button`
     width: 40px;
     height: 40px;
     border: 0.1px solid black;
-    padding-left: 15px;
     background: url("/image/logo.jpg") no-repeat 50% 50%;
     &:hover {
     cursor: pointer;
@@ -88,11 +99,18 @@ const MenuList = styled.ul`
 `;
 
 const MenuListContent = styled.li`
-    margin-left: 15px;
+    margin-left: 8px;
+    margin-right: 8px;
     color: ${(prop) => (prop.isPathMatch ? "blue" : "black")};
     &:hover {
     cursor: pointer;
     }
+`;
+
+const TitleAuto = styled.div`
+    font-size: 21px;
+    font-weight: bold;
+    margin-top: 10px;
 `;
 
 export default Navbar;

@@ -8,7 +8,7 @@
     "server-build": "cd server && npm ci --dev && npm run build && cd ../",
     "build": "npm run client-build && npm run server-build && mv ./client/build ./server/dist",
     "start": "cd server && npm run start",
-    "dev": "npm-run-all --parallel dev:**",
+    "dev": "GENERATE_SOURCEMAP=false npm-run-all --parallel dev:**",
     "dev:client": "cd client && npm start && cd ../",
     "dev:server": "cd server && npm run dev",
     "remove": "rm -rf ./server/dist/build",

@@ -1,4 +1,4 @@
-import Customer from "../models/customer.mode";
+import Board from "../models/board.mode";
 
 // 새 객체 생성
 exports.create = (req: any, res: any) => {
@@ -7,25 +7,31 @@ exports.create = (req: any, res: any) => {
             message: "Content can not be empty!"
         });
     };
-    const customer = Customer({
+    const board = Board({
       id: req.body.id,
+      type: req.body.type,
       title: req.body.title,
-      body: req.body.body
+      nickName: req.body.nickName,
+      date: req.body.date,
+      view: req.body.view,
+      like: req.body.like,
+      text: req.body.text,
     });
 
     // 데이터베이스에 저장
-    Customer.create(customer, (err: any, data: any) => {
+    Board.create(board, (err: any, data: any) => {
         if (err) {
             res.status(500).send({
-                message: err.message || "Some error occured while creating Customer."
+                message: err.message || "Some error occured while creating Board."
             });
-        };
-    })
+        }
+        else res.send(data);
+    });
 };
 
 // 전체 조회 
 exports.findAll = (req: any,res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: any; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
-    Customer.getAll((err: { message: any; }, data: any) => {
+    Board.getAll((err: { message: any; }, data: any) => {
         if (err)
           res.status(500).send({
             message:
@@ -36,16 +42,16 @@ exports.findAll = (req: any,res: { status: (arg0: number) => { (): any; new(): a
 };
 
 // id로 조회
-exports.findOne = (req: { params: { customerId: string; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
-    Customer.findByID(req.params.customerId, (err: { kind: string; }, data: any) => {
+exports.findOne = (req: { params: { boardId: string; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
+    Board.findByID(req.params.boardId, (err: { kind: string; }, data: any) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Customer with id ${req.params.customerId}.`
+              message: `Not found Board with id ${req.params.boardId}.`
             });
           } else {
             res.status(500).send({
-              message: "Error retrieving Customer with id " + req.params.customerId
+              message: "Error retrieving Board with id " + req.params.boardId
             });
           }
         } else res.send(data);
@@ -53,7 +59,7 @@ exports.findOne = (req: { params: { customerId: string; }; },res: { status: (arg
 };
 
 // id로 갱신
-exports.update = (req: { body: { id: any; title: any; body: any; }; params: { customerId: string; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
+exports.update = (req: { body: { id: number; type: string; title: any; nickName: string; date: string; view: number; like: number; text: string; }; params: { boardId: string; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
     // Validate Request
   if (!req.body) {
     res.status(400).send({
@@ -61,18 +67,18 @@ exports.update = (req: { body: { id: any; title: any; body: any; }; params: { cu
     });
   }
 
-  Customer.updateByID(
-    req.params.customerId,
-    Customer(req.body),
+  Board.updateByID(
+    req.params.boardId,
+    Board(req.body),
     (err: { kind: string; }, data: any) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Customer with id ${req.params.customerId}.`
+            message: `Not found Board with id ${req.params.boardId}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Customer with id " + req.params.customerId
+            message: "Error updating Board with id " + req.params.boardId
           });
         }
       } else res.send(data);
@@ -81,25 +87,25 @@ exports.update = (req: { body: { id: any; title: any; body: any; }; params: { cu
 };
 
 // id로 삭제
-exports.delete = (req: { params: { customerId: number; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
-    Customer.remove(req.params.customerId, (err: { kind: string; }, data: any) => {
+exports.delete = (req: { params: { boardId: number; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
+    Board.remove(req.params.boardId, (err: { kind: string; }, data: any) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Customer with id ${req.params.customerId}.`
+              message: `Not found Board with id ${req.params.boardId}.`
             });
           } else {
             res.status(500).send({
-              message: "Could not delete Customer with id " + req.params.customerId
+              message: "Could not delete Board with id " + req.params.boardId
             });
           }
-        } else res.send({ message: `Customer was deleted successfully!` });
+        } else res.send({ message: `Board was deleted successfully!` });
       });
 };
 
 // 전체 삭제
 exports.deleteAll = (req: any,res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: any; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
-    Customer.removeAll((err: { message: any; }, data: any) => {
+    Board.removeAll((err: { message: any; }, data: any) => {
         if (err)
           res.status(500).send({
             message:

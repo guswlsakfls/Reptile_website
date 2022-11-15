@@ -1,4 +1,4 @@
-import { Div } from "../../Components/Common/Body"
+import { Body } from "../../Components/Common/Body"
 import styled from "styled-components"
 import { CardButton } from "../../Components/Common/Button"
 import { useState, useEffect } from "react";
@@ -26,8 +26,8 @@ export default function Morph() {
     return (
         <>
             <Navbar />
-            <Div>
-                <Body>
+            <Body>
+                <Div>
                     <h1>펫 테일게코 계산기</h1><br/>
                     <h2>번식할 때 짝을 이룰 두 부모 모프를 입력하면 계산기가 유전적 가능성을 표시합니다.</h2><br/>
                     <InputContiner>
@@ -82,8 +82,8 @@ export default function Morph() {
                             </ResultTableBody>
                         </ResultTable>
                     </ResultBox>
-                </Body>
-            </Div>
+                </Div>
+            </Body>
         </>
     );
 };
@@ -110,7 +110,7 @@ const Datalist = styled.datalist`
 `
 
 // 여기 까지 연습
-const Body = styled.div`
+const Div = styled.div`
     margin-top: 100px;
     margin-left: 50px;
     margin-right: 50px;

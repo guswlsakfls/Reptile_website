@@ -1,9 +1,7 @@
 import { Footer } from "../../Components/Common/Footer";
-import { CardButton } from "../../Components/Common/Button";
 import { CardContainer } from "../../Components/Common/Card";
-import { Text } from "../../Components/Common/Text";
-import { Div } from "../../Components/Common/Body";
-import { Container, Header, HeaderTitle, HeaderBody, Divide, SubTitle } from "./Home.element";
+import { Body, Container } from "../../Components/Common/Body";
+import { Header, HeaderTitle, HeaderBody, Divide, SubTitle } from "./Home.element";
 import { CardList } from "../../Components/Presentation/CardList";
 import { Link } from "react-router-dom";
 import Navbar from "../../Components/Common/Navbar";
@@ -12,7 +10,7 @@ export default function Home() {
     return (
         <>
             <Navbar />
-            <Div>
+            <Body>
                 <Container>
                     <Link to="/morph">
                         <Header>
@@ -37,7 +35,7 @@ export default function Home() {
                     Copyright c pablo 2022-2022<br/><br/>
                     광고 및 제휴 문의: guswlsakfls@gmail.com
                 </Footer>
-            </Div>
+            </Body>
         </>
     );
 };
