@@ -1,18 +1,32 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import { getFreeBoard } from "../../Components/Container/getApi";
 
-export default function TextEditor({setText}) {
-    const editorRef = useRef(null);
+export default function TextEditor({setText, setTitle, setData, id}) {
+  const editorRef = useRef(null);
 
-    const onChange = () => {
-        const data = editorRef.current.getInstance().getHTML()
-        setText(data);
+  const onChange = () => {
+      const data = editorRef.current.getInstance().getHTML()
+      setText(data);
+  }
+
+  useEffect(() => {
+    if (id) {
+      getFreeBoard(id)
+      .then(res => {
+        setData(res);
+        setTitle(res.title);
+        setText(res.text);
+        editorRef.current.getInstance().setHTML(res.text);
+      })
+      .catch(err => console.log(err));
     }
+  }, []);
 
   return (
     <>

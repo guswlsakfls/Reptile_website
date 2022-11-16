@@ -12,7 +12,7 @@ export default function BoardList() {
         .then(res => {setBoardList(res);})
         .catch(err => console.log(err));
     }, [])
-    
+
     return (
         <>
             <Table>
@@ -32,7 +32,7 @@ export default function BoardList() {
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{item.type}</td>
-                            <td><Link to="/board/write">{item.title}</Link></td>
+                            <td><Link to={`/board/${item.id}`}>{item.title}</Link></td>
                             <td>{item.nickName}</td>
                             <td>{item.date}</td>
                             <td>{item.view}</td>

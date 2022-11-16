@@ -9,15 +9,15 @@ router.post("/board/write", board.create);
 router.get("/board", board.findAll);
 
 // id로 조회
-router.get("/board/:boardId", board.findOne);
+router.get("/board/:id", board.findOne);
 
 // id로 수정
-router.put("/board/:boardId", board.update);
+router.put("/board/write/:id", board.update);
 
 // id로 삭제
-router.delete("/board/:boardId", board.delete);
+router.delete("/board/:id", board.delete);
 
 // 전체 삭제
-router.delete("/board", board.deleteAll);
+// router.delete("/board", board.deleteAll);
 
 module.exports = router

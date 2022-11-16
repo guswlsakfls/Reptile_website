@@ -42,24 +42,25 @@ exports.findAll = (req: any,res: { status: (arg0: number) => { (): any; new(): a
 };
 
 // id로 조회
-exports.findOne = (req: { params: { boardId: string; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
-    Board.findByID(req.params.boardId, (err: { kind: string; }, data: any) => {
+exports.findOne = (req: { params: { id: string; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
+    Board.findByID(req.params.id, (err: { kind: string; }, data: any) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Board with id ${req.params.boardId}.`
+              message: `Not found Board with id ${req.params.id}.`
             });
-          } else {
+          }
+          else {
             res.status(500).send({
-              message: "Error retrieving Board with id " + req.params.boardId
+              message: "Error retrieving Board with id " + req.params.id
             });
           }
         } else res.send(data);
       });
 };
 
-// id로 갱신
-exports.update = (req: { body: { id: number; type: string; title: any; nickName: string; date: string; view: number; like: number; text: string; }; params: { boardId: string; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
+// id로 수정
+exports.update = (req: { body: { id: number; type: string; title: any; nickName: string; date: string; view: number; like: number; text: string; }; params: { id: string; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
     // Validate Request
   if (!req.body) {
     res.status(400).send({
@@ -68,17 +69,17 @@ exports.update = (req: { body: { id: number; type: string; title: any; nickName:
   }
 
   Board.updateByID(
-    req.params.boardId,
+    req.params.id,
     Board(req.body),
     (err: { kind: string; }, data: any) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Board with id ${req.params.boardId}.`
+            message: `Not found Board with id ${req.params.id}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Board with id " + req.params.boardId
+            message: "Error updating Board with id " + req.params.id
           });
         }
       } else res.send(data);
@@ -87,16 +88,16 @@ exports.update = (req: { body: { id: number; type: string; title: any; nickName:
 };
 
 // id로 삭제
-exports.delete = (req: { params: { boardId: number; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
-    Board.remove(req.params.boardId, (err: { kind: string; }, data: any) => {
+exports.delete = (req: { params: { id: number; }; },res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
+    Board.remove(req.params.id, (err: { kind: string; }, data: any) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Board with id ${req.params.boardId}.`
+              message: `Not found Board with id ${req.params.id}.`
             });
           } else {
             res.status(500).send({
-              message: "Could not delete Board with id " + req.params.boardId
+              message: "Could not delete Board with id " + req.params.id
             });
           }
         } else res.send({ message: `Board was deleted successfully!` });

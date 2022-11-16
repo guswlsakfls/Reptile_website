@@ -31,8 +31,8 @@ Board.create = (newBoard: any, result: any) => {
 };
 
 // Board id로 조회
-Board.findByID = (boardID: any, result: any) => {
-    db.query('SELECT * FROM board.free_board WHERE id = ?', boardID, (err, res) => {
+Board.findByID = (id: any, result: any) => {
+    db.query('SELECT * FROM korep.free_board WHERE id = ?', id, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -58,8 +58,8 @@ Board.getAll = (result: any) => {
 
 // Board id로 수정
 Board.updateByID = (id: any, Board: any, result: any) => {
-    db.query('UPDATE board SET id = ?, title = ?, type = ? WHERE id = ?', 
-    [Board.id, Board.type, Board.title, id], (err, res) => {
+    db.query('UPDATE korep.free_board SET id = ?, type = ? ,title = ?, text = ? WHERE id = ?', 
+    [id, Board.type, Board.title, Board.text, id], (err, res) => {
         if (err) {
             console.log("error: ", err);
             return;
@@ -75,7 +75,7 @@ Board.updateByID = (id: any, Board: any, result: any) => {
 
 // Board id 로 삭제
 Board.remove = (id: any, result: any) => {
-    db.query('DELETE FROM free_board WHERE id = ?', id, (err, res) => {
+    db.query('DELETE FROM korep.free_board WHERE id = ?', id, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

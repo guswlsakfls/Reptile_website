@@ -8,6 +8,12 @@ const getAllFreeBoard = async() => {
     return res.data.reverse(); // 최신화 위해 역순으로 정렬.
 }
 
+// freeBoard 글 조회.
+const getFreeBoard = async(id) => {
+    const res = await axios.get(serverIp + "/" + id);
+    return res.data;
+}
+
 // freeBoard 글쓰기.
 const postFreeBoard = async(data) => {
     const res = await axios.post(serverIp + "/write", data);
@@ -15,8 +21,8 @@ const postFreeBoard = async(data) => {
 }
 
 // freeBoard 글 수정.
-const putFreeBoard = async(data) => {
-    const res = await axios.put(serverIp, data);
+const putFreeBoard = async(id, data) => {
+    const res = await axios.put(serverIp + "/write/" + id, data);
     return res.data;
 }
 
@@ -26,4 +32,6 @@ const deleteFreeBoard = async(id) => {
     return res.data;
 }
 
-export { getAllFreeBoard, postFreeBoard, putFreeBoard, deleteFreeBoard };
+export { getAllFreeBoard, postFreeBoard, putFreeBoard, deleteFreeBoard
+    , getFreeBoard 
+};
