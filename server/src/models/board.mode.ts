@@ -51,7 +51,7 @@ Board.getAll = (result: any) => {
             result(err, null);
             return ;
         }
-        console.log("Board: ", res);
+        // console.log("Board: ", res); // 서버 콘솔에 조회결과 출력
         result(null, res);
     })
 }

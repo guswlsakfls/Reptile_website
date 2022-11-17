@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import Navbar from "../../Components/Common/Navbar";
 import { Body, Container } from "../../Components/Common/Body";
 import TextEditor from "./TextEditor";
@@ -28,32 +28,40 @@ export default function Write () {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    useEffect(() => {
-        input.current.focus();
-    }, []);
-
-    useEffect(() => {
-        setData({
-            type: '공지',
-            title: title,
-            nickName: '운영자',
-            date: moment().format('YYYY-MM-DD HH:mm:ss'),
-            view: 0,
-            like: 0,
-            text: text,
-        });
-    }, [title, text]);
-
     const onChangeInput = (e) => {
         setTitle(e.target.value);
     };
-
+    
     // 제출 이벤트 핸들러
     const handleSubmit = (e) => {
         e.preventDefault(); // 뭔 차이지.. -> 새로고침이 안 되는듯, 근데 어디는 써야 하고 어디는 안써야하는지?
+        let boardData = {};
+        
+        if (id) {
+            boardData = {
+                type: '공지',
+                title: title,
+                nickName: '운영자',
+                date: data.date,
+                view: 0,
+                like: 0,
+                text: text,
+            }
+        }
+        else {
+            boardData = {
+                type: '공지',
+                title: title,
+                nickName: '운영자',
+                date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                view: 0,
+                like: 0,
+                text: text,
+            }
+        }
 
         if (id) {
-            putFreeBoard(id, data)
+            putFreeBoard(id, boardData)
             .then(res => {
                 console.log(res);
                 navigate('/board');
@@ -61,7 +69,7 @@ export default function Write () {
             .catch(err => console.log(err));
         }
         else {
-            postFreeBoard(data)
+            postFreeBoard(boardData)
             .then(res => console.log(res))
             .catch(err => console.log(err));
             navigate('/board');
@@ -69,7 +77,12 @@ export default function Write () {
     }
     
     const backToPage = () => {
-        navigate(-1);
+        if (id) {
+            navigate(`/board/${id}`);
+        }
+        else {
+            navigate('/board');
+        }
     }
 
     return (

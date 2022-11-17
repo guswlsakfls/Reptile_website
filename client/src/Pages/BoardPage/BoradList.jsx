@@ -1,17 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { getAllFreeBoard } from "../../Components/Container/getApi";
 
-export default function BoardList() {
-
-    const [boardList, setBoardList] = useState([]);
-
-    useEffect(() => {
-        getAllFreeBoard()
-        .then(res => {setBoardList(res);})
-        .catch(err => console.log(err));
-    }, [])
+export default function BoardList({boardList}) {
 
     return (
         <>

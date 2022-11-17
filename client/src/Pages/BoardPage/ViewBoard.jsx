@@ -36,7 +36,7 @@ export default function ViewBoard() {
                         <hr></hr>
                         <br></br>
                         <ViewerPage value={boardList.text}/>
-                        <LinkButton to="/board">되돌아가기</LinkButton>
+                        <LinkButton to="/board/">되돌아가기</LinkButton>
                         <LinkButton to={`/board/write/${id}`}>수정하기</LinkButton>
                         <Button onClick={deletePage}>삭제하기</Button>
                     </Container>
