@@ -9,7 +9,7 @@ import 'moment/locale/ko';
 import { Button } from "./Board.element";
 import { useNavigate } from "react-router-dom";
 import { putFreeBoard } from "../../Components/Container/getApi";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export default function Write () {
     const [title, setTitle] = useState('');
@@ -26,7 +26,10 @@ export default function Write () {
     }]);
     const input = useRef(null);
     const navigate = useNavigate();
-    const { id } = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const table = searchParams.get("table") || null;
+    const page = parseInt(searchParams.get("page")) || 1;
+    const no = parseInt(searchParams.get("no")) || null;
 
     const onChangeInput = (e) => {
         setTitle(e.target.value);
@@ -35,36 +38,28 @@ export default function Write () {
     // 제출 이벤트 핸들러
     const handleSubmit = (e) => {
         e.preventDefault(); // 뭔 차이지.. -> 새로고침이 안 되는듯, 근데 어디는 써야 하고 어디는 안써야하는지?
-        let boardData = {};
-        
-        if (id) {
-            boardData = {
-                type: '공지',
-                title: title,
-                nickName: '운영자',
-                date: data.date,
-                view: 0,
-                like: 0,
-                text: text,
-            }
+        let boardData = {
+            type: '공지',
+            title: title,
+            nickName: '운영자',
+            date: data.date,
+            view: 0,
+            like: 0,
+            text: text,
         }
-        else {
+
+        if (!no) {
             boardData = {
-                type: '공지',
-                title: title,
-                nickName: '운영자',
+                ...boardData,
                 date: moment().format('YYYY-MM-DD HH:mm:ss'),
-                view: 0,
-                like: 0,
-                text: text,
             }
         }
 
-        if (id) {
-            putFreeBoard(id, boardData)
+        if (no) {
+            putFreeBoard(table, page, no, boardData)
             .then(res => {
                 console.log(res);
-                navigate('/board');
+                navigate('/board/list');
             })
             .catch(err => console.log(err));
         }
@@ -72,16 +67,16 @@ export default function Write () {
             postFreeBoard(boardData)
             .then(res => console.log(res))
             .catch(err => console.log(err));
-            navigate('/board');
+            navigate('/board/list');
         }
     }
     
     const backToPage = () => {
-        if (id) {
-            navigate(`/board/${id}`);
+        if (no) {
+            navigate(`/board/view?table=${table}&page=${page}&no=${no}`);
         }
         else {
-            navigate('/board');
+            navigate('/board/list');
         }
     }
 
@@ -111,7 +106,9 @@ export default function Write () {
                             setText={setText} 
                             setTitle={setTitle} 
                             setData={setData} 
-                            id={id}>
+                            table={table}
+                            page={page}
+                            no={no} >
                         </TextEditor>
                         <br></br>
                         <div>

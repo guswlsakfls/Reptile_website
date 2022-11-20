@@ -7,7 +7,7 @@ import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import { getFreeBoard } from "../../Components/Container/getApi";
 
-export default function TextEditor({setText, setTitle, setData, id, input}) {
+export default function TextEditor({setText, setTitle, setData, table, page, no}) {
   const editorRef = useRef(null);
 
   const onChange = () => {
@@ -16,8 +16,8 @@ export default function TextEditor({setText, setTitle, setData, id, input}) {
   }
 
   useEffect(() => {
-    if (id) {
-      getFreeBoard(id)
+    if (no) {
+      getFreeBoard(table, page, no)
       .then(res => {
         setData(res);
         setTitle(res.title);

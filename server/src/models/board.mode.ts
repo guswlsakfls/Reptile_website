@@ -3,8 +3,7 @@ import db  from './db';
 const Board = (Board: {
     id: number; type: string; title: string;
     nickName: string; date: string; view: number;
-    like: number; text: string;
-    }) => {
+    like: number; text: string; }) => {
         const id = Board.id;
         const type = Board.type;
         const title = Board.title;
@@ -14,7 +13,7 @@ const Board = (Board: {
         const like = Board.like;
         const text = Board.text;
         return ({id, type, nickName, date, view, like, title, text})
-}
+    }
 
 // Board 튜플 추가
 Board.create = (newBoard: any, result: any) => {
@@ -27,19 +26,6 @@ Board.create = (newBoard: any, result: any) => {
         console.log("Created freeBoard: ", {id:res.insertId, ...newBoard});
         console.log('newFreeBoard');
         result(null, res);
-    });
-};
-
-// Board id로 조회
-Board.findByID = (id: any, result: any) => {
-    db.query('SELECT * FROM korep.free_board WHERE id = ?', id, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return ;
-        }
-
-        result(null, res[0]);
     });
 };
 
@@ -56,26 +42,112 @@ Board.getAll = (result: any) => {
     })
 }
 
+// Board id로 조회
+Board.findByID = (q: any, result: any) => {
+    const table = {
+        freeBoard: "SELECT * FROM korep.free_board WHERE id = ?",
+        // freeBoard: "SELECT * FROM ? WHERE id = ?",
+    }
+    let sql = q.table;
+    const sqlParams = q.no;
+    
+    // 게시판 유형에 따라 다른 쿼리문 실행
+    if (q.table === 'free-board') {
+        sql = table.freeBoard;
+    } else if (q.table === 'notice') {
+        sql = 'notice';
+    } else if (q.table === 'qna') {
+        sql = 'qna';
+    }
+    db.query(sql, sqlParams, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return ;
+        }
+        result(null, res[0]);
+    });
+};
+
+// Board 조회수 증가
+Board.increaseView = (q: any, result: any) => {
+    const table = {
+        freeBoard: "UPDATE korep.free_board SET view = view + 1 WHERE id = ?",
+    }
+    let sql = q.table;
+    const sqlParams = q.no;
+
+    // 게시판 유형에 따라 다른 쿼리문 실행
+    if (q.table === 'free-board') {
+        sql = table.freeBoard;
+    } else if (q.table === 'notice') {
+        sql = 'notice';
+    } else if (q.table === 'qna') {
+        sql = 'qna';
+    }
+    db.query(sql, sqlParams, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return ;
+        }
+        result(null, res[0]);
+    });
+};
+
 // Board id로 수정
-Board.updateByID = (id: any, Board: any, result: any) => {
-    db.query('UPDATE korep.free_board SET id = ?, type = ? ,title = ?, text = ? WHERE id = ?', 
-    [id, Board.type, Board.title, Board.text, id], (err, res) => {
+Board.updateByID = (q: any, Board: any, result: any) => {
+    const table = {
+        freeBoard: "UPDATE korep.free_board SET type = ? ,title = ?, text = ? WHERE id = ?",
+    }
+    let sql = table.freeBoard;
+    
+    // 게시판 유형에 따라 다른 쿼리문 실행
+    if (q.table === 'free-board') {
+        sql = table.freeBoard;
+    }
+    else if (q.table === 'notice') {
+        sql = 'notice';
+    }
+    else if (q.table === 'qna') {
+        sql = 'qna';
+    }
+
+    db.query(sql, [Board.type, Board.title, Board.text, q.no], (err, res) => {
         if (err) {
             console.log("error: ", err);
             return;
         }
-        if (res.affectedRows == 0) {
+        else if (res.affectedRows == 0) {
             result({kind: "not_found"}, null);
             return ;
         }
-        console.log("update Board: ", {id:id, ...Board});
-        result(null, {id:id, ...Board});
+        console.log("update Board: ", {id:q.no, ...Board});
+        result(null, {id:q.no, ...Board});
     });
 };
 
+
+
 // Board id 로 삭제
-Board.remove = (id: any, result: any) => {
-    db.query('DELETE FROM korep.free_board WHERE id = ?', id, (err, res) => {
+Board.remove = (q: any, result: any) => {
+    const table = {
+        freeBoard: "DELETE FROM korep.free_board WHERE id = ?",
+    }
+    let sql = table.freeBoard;
+    
+    // 게시판 유형에 따라 다른 쿼리문 실행
+    if (q.table === 'free-board') {
+        sql = table.freeBoard;
+    }
+    else if (q.table === 'notice') {
+        sql = 'notice';
+    }
+    else if (q.table === 'qna') {
+        sql = 'qna';
+    }
+
+    db.query(sql, q.no, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -85,7 +157,7 @@ Board.remove = (id: any, result: any) => {
             result({kind: "not_found"}, null);
             return ;
         }
-        console.log("deleted Board with id: ", id);
+        console.log("deleted Board with id: ", q.no);
         result(null, res);
     });
 };

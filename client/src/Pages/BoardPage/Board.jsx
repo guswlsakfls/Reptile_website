@@ -5,7 +5,6 @@ import { LinkButton } from "./Board.element";
 import Paging from "../../Components/Common/Paging";
 import { useState, useEffect } from "react";
 import { getAllFreeBoard } from "../../Components/Container/getApi";
-import { useLocation } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 export default function Board() {
@@ -22,14 +21,14 @@ export default function Board() {
     const indexOfFirstPost = indexOfLastPost - postPerPage; // 현재 페이지의 첫번째 포스트
 
     useEffect(() => {
-        // const nextPage = page === null ? 1 : parseInt(page);
+        // table 에서 게시판 이름 들어올때마다 바꿔서 보여주면 될 듯
         const nextTable = table === null ? "free-board" : table;
 
         setSearchParams({table: nextTable, page});
     }, []);
 
     useEffect(() => {
-        getAllFreeBoard()
+        getAllFreeBoard(table, page)
         .then(res => {
             setCount(res.length);
             setCurrentPosts(res.slice(indexOfFirstPost, indexOfLastPost));
@@ -38,8 +37,6 @@ export default function Board() {
     }, [indexOfFirstPost, indexOfLastPost, page]);
 
     const setPage = (page) => {
-        // const nextPage = page === 1 ? 1 : parseInt(page); // 이거 없어도 되는데?
-
         setSearchParams({table, page: page});
     }
 
@@ -52,7 +49,7 @@ export default function Board() {
                     <h1>자유 게시판</h1>
                     <hr></hr>
                     <br></br>
-                    <BoardList boardList={currentPosts}/>
+                    <BoardList boardList={currentPosts} table={table} page={page}/>
                     <Paging totalCount={count} page={page} postPerPage={postPerPage}
                             pageRangeDisplayed={pageRangeDisplayed} handlePageChange={setPage}/>
                     <LinkButton to="/board/write">글쓰기</LinkButton>

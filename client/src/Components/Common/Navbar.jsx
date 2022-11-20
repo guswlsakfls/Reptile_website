@@ -29,8 +29,8 @@ const Navbar = () => {
             </MenuList>
             <MenuList>
                 <MenuListContent
-                isPathMatch={pathname === "/board" ? true : false}
-                onClick={() => navigate("/board")}
+                isPathMatch={pathname === "/board/list" ? true : false}
+                onClick={() => navigate("/board/list")}
                 >
                 자유게시판
                 </MenuListContent>
