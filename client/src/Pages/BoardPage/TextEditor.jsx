@@ -5,7 +5,7 @@ import '@toast-ui/editor/dist/i18n/ko-kr';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import { getFreeBoard } from "../../Components/Container/getApi";
+import { getViewBoard } from "../../Components/Container/getApi";
 
 export default function TextEditor({setText, setTitle, setData, table, page, no}) {
   const editorRef = useRef(null);
@@ -17,7 +17,7 @@ export default function TextEditor({setText, setTitle, setData, table, page, no}
 
   useEffect(() => {
     if (no) {
-      getFreeBoard(table, page, no)
+      getViewBoard(table, page, no)
       .then(res => {
         setData(res);
         setTitle(res.title);

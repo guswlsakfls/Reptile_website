@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // 전체 게시글 리스트 조회
-router.get("/board/list", board.findAll);
+router.get("/board/list", board.findList);
 
 // id로 해당 게시글 조회
 router.get("/board/view", board.findOne);

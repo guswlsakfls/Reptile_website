@@ -30,7 +30,7 @@ const Navbar = () => {
             <MenuList>
                 <MenuListContent
                 isPathMatch={pathname === "/board/list" ? true : false}
-                onClick={() => navigate("/board/list")}
+                onClick={() => navigate("/board/list?table=free-board")}
                 >
                 자유게시판
                 </MenuListContent>

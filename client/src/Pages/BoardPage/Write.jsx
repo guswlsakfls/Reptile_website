@@ -59,7 +59,7 @@ export default function Write () {
             putFreeBoard(table, page, no, boardData)
             .then(res => {
                 console.log(res);
-                navigate('/board/list');
+                navigate(`/board/view?table=${table}&page=${page}&no=${no}`);
             })
             .catch(err => console.log(err));
         }
@@ -67,7 +67,7 @@ export default function Write () {
             postFreeBoard(boardData)
             .then(res => console.log(res))
             .catch(err => console.log(err));
-            navigate('/board/list');
+            navigate(`/board/list?table=${table}`);
         }
     }
     
@@ -76,7 +76,7 @@ export default function Write () {
             navigate(`/board/view?table=${table}&page=${page}&no=${no}`);
         }
         else {
-            navigate('/board/list');
+            navigate(`/board/list?table=${table}`);
         }
     }
 
@@ -113,7 +113,7 @@ export default function Write () {
                         <br></br>
                         <div>
                             <Button type="submit">작성완료</Button>
-                            <Button onClick={backToPage}>되돌아가기</Button>
+                            <Button type="button" onClick={backToPage}>되돌아가기</Button>
                         </div>
                     </form>
                 </Container>

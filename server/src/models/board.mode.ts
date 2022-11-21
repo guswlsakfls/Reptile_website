@@ -1,4 +1,5 @@
 import db  from './db';
+import mysql from 'mysql';
 
 const Board = (Board: {
     id: number; type: string; title: string;
@@ -30,16 +31,62 @@ Board.create = (newBoard: any, result: any) => {
 };
 
 // Board 전체 조회
-Board.getAll = (result: any) => {
-    db.query('SELECT * FROM korep.free_board', (err, res) => {
+Board.getList = (q: any, result: any) => {
+    // offest 페이지네이션 구현
+    const offset = (q.page - 1) * q.limit;
+    const limit = parseInt(q.limit);
+    const sqlParams = [offset, limit];
+    let sql = q.table;
+    const table = {
+        freeBoard: "SELECT * FROM korep.free_board order by id desc limit ?, ?; ",
+        // qnaBoard: 'SELECT * FROM korep.qna_board order by id desc limit ?, ?',
+    }
+    let sqls = "";
+
+    // 게시판 유형에 따라 다른 쿼리문 실행
+    if (q.table === 'free-board') {
+        sql = table.freeBoard;
+    }
+    else if (q.table === 'notice') {
+        sql = 'notice';
+    }
+    else if (q.table === 'qna') {
+        sql = 'qna';
+    }
+
+    sqls += mysql.format(sql, sqlParams);
+    sqls += getListCount(q); // 리스트 count 조회
+
+    db.query(sqls, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return ;
         }
-        // console.log("Board: ", res); // 서버 콘솔에 조회결과 출력
+        console.log("Board: ", res[0], res[1]); // 서버 콘솔에 조회결과 출력
         result(null, res);
     })
+}
+
+// Board 총 list 숫자 조회
+ const getListCount = (q: any) => {
+    let sql = q.table;
+    const table = {
+        freeBoard: "SELECT count(*) as count FROM korep.free_board; ",
+        // qnaBoard: 'SELECT count(*) as count FROM korep.qna_board',
+    }
+
+    // 게시판 유형에 따라 다른 쿼리문 실행
+    if (q.table === 'free-board') {
+        sql = table.freeBoard;
+    }
+    else if (q.table === 'notice') {
+        sql = 'notice';
+    }
+    else if (q.table === 'qna') {
+        sql = 'qna';
+    }
+    return mysql.format(sql, []);
 }
 
 // Board id로 조회

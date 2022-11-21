@@ -1,5 +1,5 @@
 import ViewerAPI from "./ViewerAPI";
-import { deleteFreeBoard, getFreeBoard } from "../../Components/Container/getApi";
+import { deleteFreeBoard, getViewBoard } from "../../Components/Container/getApi";
 import Navbar from "../../Components/Common/Navbar";
 import { useState, useEffect } from "react";
 import { Body, Container } from "../../Components/Common/Body";
@@ -17,7 +17,7 @@ export default function ViewBoard() {
     const no = parseInt(searchParams.get("no")) || null;
 
     useEffect(() => {
-        getFreeBoard(table, page, no)
+        getViewBoard(table, page, no)
         .then(res => {setBoardList(res);})
         .catch(err => console.log(err));
     }, [])
