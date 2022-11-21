@@ -104,7 +104,7 @@ export default function Write () {
                         <br></br>
                         <TextEditor 
                             setText={setText} 
-                            setTitle={setTitle} 
+                            setTitle={setTitle} // useMemo로 리렌더링 해결해야 할 듯 
                             setData={setData} 
                             table={table}
                             page={page}

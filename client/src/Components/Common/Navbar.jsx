@@ -35,10 +35,16 @@ const Navbar = () => {
                 자유게시판
                 </MenuListContent>
                 <MenuListContent
-                isPathMatch={pathname === "/morph" ? true : false}
-                onClick={() => navigate("/morph")}
+                isPathMatch={pathname === "/morph/cal" ? true : false}
+                onClick={() => navigate("/morph/cal")}
                 >
                 모프계산기
+                </MenuListContent>
+                <MenuListContent
+                isPathMatch={pathname === "/morph/view" ? true : false}
+                onClick={() => navigate("/morph/view")}
+                >
+                모프소개
                 </MenuListContent>
                 <MenuListContent
                 isPathMatch={pathname === "/login" ? true : false}

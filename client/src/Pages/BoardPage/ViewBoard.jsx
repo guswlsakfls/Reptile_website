@@ -1,4 +1,4 @@
-import ViewerPage from "./ViewerPage";
+import ViewerAPI from "./ViewerAPI";
 import { deleteFreeBoard, getFreeBoard } from "../../Components/Container/getApi";
 import Navbar from "../../Components/Common/Navbar";
 import { useState, useEffect } from "react";
@@ -17,10 +17,6 @@ export default function ViewBoard() {
     const no = parseInt(searchParams.get("no")) || null;
 
     useEffect(() => {
-        console.log("table: ", table);
-        console.log("page: ", page);
-        console.log("no: ", no);
-
         getFreeBoard(table, page, no)
         .then(res => {setBoardList(res);})
         .catch(err => console.log(err));
@@ -43,7 +39,7 @@ export default function ViewBoard() {
                         <h1>게시글 보기</h1>
                         <hr></hr>
                         <br></br>
-                        <ViewerPage value={boardList.text}/>
+                        <ViewerAPI value={boardList.text}/>
                         <LinkButton to={`/board/list?table=${table}&page=${page}`}>되돌아가기</LinkButton>
                         <LinkButton to={`/board/write?table=${table}&page=${page}&no=${no}`}>수정하기</LinkButton>
                         <Button onClick={deletePage}>삭제하기</Button>

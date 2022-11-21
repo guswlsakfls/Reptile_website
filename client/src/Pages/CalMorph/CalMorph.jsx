@@ -7,7 +7,7 @@ import AddMorphName from "./MorphFuc";
 import AutoCompleteInput from "./AutoCompleteInput";
 import Navbar from "../../Components/Common/Navbar";
 
-export default function Morph() {
+export default function CalMorph() {
     const [parent1, setParent1] = useState(""); // 부 유전자
     const [parentList1, setParentList1] = useState([]); // 부 유전자 리스트
     const [parent2, setParent2] = useState(""); // 모 유전자
