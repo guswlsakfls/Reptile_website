@@ -11,8 +11,8 @@ export default function RoutesComponent() {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/morph/cal" element={<CalMorph />} />
-            <Route path="/morph/view" element={<ViewMorph />} />
             <Route path="/board/list" element={<Board />} />
+            <Route path="/morph/view" element={<ViewMorph />} />
             <Route path="/board/view" element={<ViewBoard />} />
             <Route path="/board/write" element={<Write />} />
             <Route path="/board/write/:id" element={<Write />} />
