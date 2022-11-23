@@ -17,8 +17,26 @@ const Board = (Board: {
     }
 
 // Board 튜플 추가
-Board.create = (newBoard: any, result: any) => {
-    db.query("INSERT INTO korep.free_board SET ?", newBoard, (err: any, res) => {
+Board.create = (newBoard: any, q: {table: String}, result: any) => {
+    console.log(q)
+    let sql = "";
+    const table = {
+        freeBoard: "INSERT INTO korep.free_board SET ?",
+        // qnaBoard: 'SELECT count(*) as count FROM korep.qna_board',
+    }
+
+    // 게시판 유형에 따라 다른 쿼리문 실행
+    if (q.table === 'free-board') {
+        sql = table.freeBoard;
+    }
+    else if (q.table === 'notice') {
+        sql = 'notice';
+    }
+    else if (q.table === 'qna') {
+        sql = 'qna';
+    }
+
+    db.query(sql, newBoard, (err: any, res) => {
         if (err) {
             console.log("err: ", err);
             result(err, null);

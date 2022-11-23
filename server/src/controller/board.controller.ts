@@ -7,20 +7,19 @@ exports.create = (req: any, res: any) => {
           message: "Content can not be empty!"
       });
   };
-  // console.log(req.body);
+  const data = req.body.data;
   const board = Board({
-    id: req.body.id,
-    type: req.body.type,
-    title: req.body.title,
-    nickname: req.body.nickname,
-    date: req.body.date,
-    view: req.body.view,
-    like: req.body.like,
-    text: req.body.text,
+    id: data.id,
+    type: data.type,
+    title: data.title,
+    nickname: data.nickname,
+    date: data.date,
+    view: data.view,
+    like: data.like,
+    text: data.text,
   });
-
   // 데이터베이스에 저장
-  Board.create(board, (err: any, data: any) => {
+  Board.create(board, req.body.params,(err: any, data: any) => {
       if (err) {
           res.status(500).send({
               message: err.message || "Some error occured while creating Board."

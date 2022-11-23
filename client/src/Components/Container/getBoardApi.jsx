@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+const serverIp = process.env.REACT_APP_API_URL + "/board";
+
 // freeBoard 글쓰기.
 const postBoard = async(table, data) => {
+    console.log(data);
     const res = await axios.post(serverIp + "/write", {
         params: {
             table: table
@@ -11,7 +14,6 @@ const postBoard = async(table, data) => {
     return res.data;
 }
 
-const serverIp = process.env.REACT_APP_API_URL + "/board";
 
 // freeBoard 전체 리스트 받아오기.
 const getListBoard = async(table, page, limit) => {

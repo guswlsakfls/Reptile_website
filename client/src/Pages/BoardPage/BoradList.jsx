@@ -39,7 +39,7 @@ export default function BoardList({boardList, table, page}) {
                             <td>{item.id}</td>
                             <td>{item.type}</td>
                             <td><Link to={`/board/view?table=${table}&page=${page}&no=${item.id}`}>{item.title}</Link></td>
-                            <td>{item.nickName}</td>
+                            <td>{item.nickname}</td>
                             <td>{changeDateFormat(item.date)}</td>
                             <td>{item.view}</td>
                             <td>{item.like}</td>
