@@ -1,30 +1,12 @@
 import styled from "styled-components";
 
-// import './Paging.css';
-// import Pagination from "react-js-pagination";
-
-// const Paging = ({totalCount,
-//                   postPerPage,
-//                   pageRangeDisplayed,
-//                   handlePageChange,
-//                   page}) => {
-
-//   return (
-//     <Pagination
-//       activePage={page} // 현재 페이지
-//       itemsCountPerPage={postPerPage} // 한 페이지랑 보여줄 아이템 갯수
-//       totalItemsCount={totalCount ? totalCount : 0} // 총 아이템 갯수
-//       pageRangeDisplayed={pageRangeDisplayed} // paginator의 페이지 범위
-//       prevPageText={"이전"} // "이전"을 나타낼 텍스트
-//       nextPageText={"다음"} // "다음"을 나타낼 텍스트
-//       onChange={handlePageChange} // 페이지 변경을 핸들링하는 함수
-//     />
-//   );
-// };
-
-const Paging = ({totalCount, limit, page, setPage, handleSearchParams}) => {
+const Paging = ({totalCount, limit, page, setPage, handleSearchParams, pageRangeDisplayed}) => {
   const numPages = Math.ceil(totalCount / limit);
+  // const pageRange = parseInt(page / pageRangeDisplayed) * pageRangeDisplayed + 1;);
+  const pageRange = parseInt((page - 1) / pageRangeDisplayed) * pageRangeDisplayed;
 
+  console.log("page: ", page)
+  console.log("pageRnage: ", pageRange)
   return (
     <>
       <Nav>
@@ -36,6 +18,7 @@ const Paging = ({totalCount, limit, page, setPage, handleSearchParams}) => {
           &lt;
         </Button>
         {Array(numPages)
+          .splice(pageRange, pageRangeDisplayed)
           .fill()
           .map((_, i) => (
             <Button
@@ -43,9 +26,9 @@ const Paging = ({totalCount, limit, page, setPage, handleSearchParams}) => {
               onClick={() => {
                 setPage(i + 1);
                 handleSearchParams(i + 1);}}
-              aria-current={page === i + 1 ? "page" : null}
+                aria-current={page === i + pageRange + 1 ? "page" : null}
             >
-              {i + 1}
+              {i + pageRange + 1}
             </Button>
           ))}
         <Button onClick={() => {

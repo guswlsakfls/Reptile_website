@@ -1,5 +1,5 @@
 import ViewerAPI from "./ViewerAPI";
-import { deleteFreeBoard, getViewBoard } from "../../Components/Container/getApi";
+import { deleteFreeBoard, getViewBoard } from "../../Components/Container/getBoardApi";
 import Navbar from "../../Components/Common/Navbar";
 import { useState, useEffect } from "react";
 import { Body, Container } from "../../Components/Common/Body";

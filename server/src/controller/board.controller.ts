@@ -7,12 +7,12 @@ exports.create = (req: any, res: any) => {
           message: "Content can not be empty!"
       });
   };
-  console.log(req.body);
+  // console.log(req.body);
   const board = Board({
     id: req.body.id,
     type: req.body.type,
     title: req.body.title,
-    nickName: req.body.nickName,
+    nickname: req.body.nickname,
     date: req.body.date,
     view: req.body.view,
     like: req.body.like,
@@ -99,7 +99,7 @@ exports.findOne = (req: any, res: any)=>{
 };
 
 // id로 수정
-exports.update = (req: {body: {params: any ,boardData: { id: number; type: string; title: any; nickName: string; date: string; view: number; like: number; text: string; }}}, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
+exports.update = (req: {body: {params: any ,boardData: { id: number; type: string; title: any; nickname: string; date: string; view: number; like: number; text: string; }}}, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
   console.log(req.body);
   
   // Validate Request

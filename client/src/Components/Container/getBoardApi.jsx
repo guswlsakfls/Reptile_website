@@ -1,5 +1,16 @@
 import axios from 'axios';
 
+// freeBoard 글쓰기.
+const postBoard = async(table, data) => {
+    const res = await axios.post(serverIp + "/write", {
+        params: {
+            table: table
+        },
+        data
+    });
+    return res.data;
+}
+
 const serverIp = process.env.REACT_APP_API_URL + "/board";
 
 // freeBoard 전체 리스트 받아오기.
@@ -26,14 +37,9 @@ const getViewBoard = async(table, page, no) => {
     return res.data;
 }
 
-// freeBoard 글쓰기.
-const postFreeBoard = async(data) => {
-    const res = await axios.post(serverIp + "/write", data);
-    return res.data;
-}
 
 // freeBoard 글 수정.
-const putFreeBoard = async(table, page, no, boardData) => {
+const putBoard = async(table, page, no, boardData) => {
     const res = await axios.put(serverIp + "/write", {
         params: {
             table: table,
@@ -57,6 +63,6 @@ const deleteFreeBoard = async(table, page, no) => {
     return res.data;
 }
 
-export { getListBoard, postFreeBoard, putFreeBoard, deleteFreeBoard
+export { getListBoard, postBoard, putBoard, deleteFreeBoard
     , getViewBoard 
 };

@@ -3,17 +3,17 @@ import mysql from 'mysql';
 
 const Board = (Board: {
     id: number; type: string; title: string;
-    nickName: string; date: string; view: number;
+    nickname: string; date: string; view: number;
     like: number; text: string; }) => {
         const id = Board.id;
         const type = Board.type;
         const title = Board.title;
-        const nickName = Board.nickName;
+        const nickname = Board.nickname;
         const date = Board.date;
         const view = Board.view;
         const like = Board.like;
         const text = Board.text;
-        return ({id, type, nickName, date, view, like, title, text})
+        return ({id, type, nickname, date, view, like, title, text})
     }
 
 // Board 튜플 추가
@@ -69,7 +69,7 @@ Board.getList = (q: any, result: any) => {
 }
 
 // Board 총 list 숫자 조회
- const getListCount = (q: any) => {
+const getListCount = (q: any) => {
     let sql = q.table;
     const table = {
         freeBoard: "SELECT count(*) as count FROM korep.free_board; ",

@@ -4,7 +4,7 @@ import { Body, Container } from "../../Components/Common/Body";
 import { LinkButton } from "./Board.element";
 import Paging from "../../Components/Common/Paging";
 import { useState, useEffect } from "react";
-import { getListBoard } from "../../Components/Container/getApi";
+import { getListBoard } from "../../Components/Container/getBoardApi";
 import { useSearchParams } from "react-router-dom";
 
 export default function Board() {
@@ -15,7 +15,7 @@ export default function Board() {
 
     const [count, setCount] = useState(0);
     const [currentPosts, setCurrentPosts] = useState([]); // 보여줄 포스트
-    const [limit, setLimit] = useState(15); // 한 페이지에 보여줄 포스트 갯수
+    const [limit, setLimit] = useState(5); // 한 페이지에 보여줄 포스트 갯수
     const [pageRangeDisplayed, setPageRangeDisplayed] = useState(10) // 보여줄 페이지 범위 개수
     const indexOfLastPost = page * limit; // 현재 페이지의 마지막 포스트
     const indexOfFirstPost = indexOfLastPost - limit; // 현재 페이지의 첫번째 포스트
@@ -56,8 +56,9 @@ export default function Board() {
                         limit={limit}
                         setPage={setPage}
                         handleSearchParams={handleSearchParams}
+                        pageRangeDisplayed={pageRangeDisplayed}
                     />
-                    <LinkButton to="/board/write">글쓰기</LinkButton>
+                    <LinkButton to={`/board/write/?table=${table}`}>글쓰기</LinkButton>
                 </Container>
             </Body>
         </>
