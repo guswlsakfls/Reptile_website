@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from "path";
 import cors from 'cors';
-// import cookieParser from 'cookie-parser';
 
 const app = express();
 const PORT = process.env.PORT || 5000;

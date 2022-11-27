@@ -4,7 +4,6 @@ const serverIp = process.env.REACT_APP_API_URL + "/board";
 
 // freeBoard 글쓰기.
 const postBoard = async(table, data) => {
-    console.log(data);
     const res = await axios.post(serverIp + "/write", {
         params: {
             table: table

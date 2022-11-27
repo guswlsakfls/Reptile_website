@@ -3,17 +3,27 @@ import styled from "styled-components";
 const Paging = ({totalCount, limit, page, setPage, handleSearchParams, pageRangeDisplayed}) => {
   const numPages = Math.ceil(totalCount / limit);
   // const pageRange = parseInt(page / pageRangeDisplayed) * pageRangeDisplayed + 1;);
-  const pageRange = parseInt((page - 1) / pageRangeDisplayed) * pageRangeDisplayed;
+  const pageRange = parseInt(Math.floor((page - 1) / pageRangeDisplayed)) * pageRangeDisplayed;
 
-  console.log("page: ", page)
-  console.log("pageRnage: ", pageRange)
+  console.log("numPages: ", numPages);
+
+  const handlePrevPage = (page) => {
+    setPage(page);
+    handleSearchParams(page);
+  }
+
+  const handleNextPage = (page) => {
+    setPage(page);
+    handleSearchParams(page);
+  }
+
   return (
     <>
       <Nav>
         <Button onClick={() => {
-          setPage(page - 1);
-          handleSearchParams(page - 1);}}
-          disabled={page === 1}
+          setPage((Math.floor((page - 1)/pageRangeDisplayed) - 1) * 5 + 1);
+          handleSearchParams((Math.floor((page - 1)/pageRangeDisplayed) - 1) * 5 + 1);}}
+          disabled={page <= 5}
         >
           &lt;
         </Button>
@@ -24,17 +34,17 @@ const Paging = ({totalCount, limit, page, setPage, handleSearchParams, pageRange
             <Button
               key={i + 1}
               onClick={() => {
-                setPage(i + 1);
-                handleSearchParams(i + 1);}}
+                setPage(i + pageRange + 1);
+                handleSearchParams(i + pageRange + 1);}}
                 aria-current={page === i + pageRange + 1 ? "page" : null}
             >
               {i + pageRange + 1}
             </Button>
           ))}
         <Button onClick={() => {
-          setPage(page + 1);
-          handleSearchParams(page + 1);}}
-          disabled={page === numPages}
+          setPage((Math.floor((page - 1)/pageRangeDisplayed) + 1) * 5 + 1);
+          handleSearchParams((Math.floor((page - 1)/pageRangeDisplayed) + 1) * 5 + 1);}}
+          disabled={pageRange + pageRangeDisplayed >= numPages}
         >
           &gt;
         </Button>

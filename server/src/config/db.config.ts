@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 export const dbConfig = {
     HOST: "0.0.0.0",
     USER: "root",
