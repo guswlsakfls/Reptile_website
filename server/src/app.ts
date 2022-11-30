@@ -14,7 +14,6 @@ app.use(express.static(path.join(__dirname, '/../dist/build')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-const router_board = require("./routes/board.routes");
 
 // 서버에서 클라이언트 열기
 app.get('/', function (req, res, next) {
@@ -23,10 +22,11 @@ app.get('/', function (req, res, next) {
 })
 
 app.listen(PORT, () => {
-    console.log(`server is running!\nport = ${PORT}`); 
+  console.log(`server is running!\nport = ${PORT}`); 
 })
 
 // 서버 확인용 로그
 console.log("korep 시작")
 
+const router_board = require("./routes/board.routes");
 app.use('/', router_board);

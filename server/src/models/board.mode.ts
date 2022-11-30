@@ -14,11 +14,10 @@ const Board = (Board: {
         const like = Board.like;
         const text = Board.text;
         return ({id, type, nickname, date, view, like, title, text})
-    }
+}
 
 // Board 튜플 추가
 Board.create = (newBoard: any, q: {table: String}, result: any) => {
-    console.log(q)
     let sql = "";
     const table = {
         freeBoard: "INSERT INTO korep.free_board SET ?",
@@ -108,13 +107,15 @@ const getListCount = (q: any) => {
 }
 
 // Board id로 조회
-Board.findByID = (q: any, result: any) => {
+Board.findBoardByID = (q: any, result: any) => {
     const table = {
-        freeBoard: "SELECT * FROM korep.free_board WHERE id = ?",
+        freeBoard: "SELECT * FROM korep.free_board WHERE id = ?; ",
         // freeBoard: "SELECT * FROM ? WHERE id = ?",
     }
     let sql = q.table;
     const sqlParams = q.no;
+    let sqls = "";
+    
     
     // 게시판 유형에 따라 다른 쿼리문 실행
     if (q.table === 'free-board') {
@@ -124,15 +125,45 @@ Board.findByID = (q: any, result: any) => {
     } else if (q.table === 'qna') {
         sql = 'qna';
     }
-    db.query(sql, sqlParams, (err, res) => {
+
+    sqls += mysql.format(sql, sqlParams);
+    sqls += getCommentList(q); // 댓글 조회
+    
+    db.query(sqls, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return ;
         }
-        result(null, res[0]);
+
+        console.log(res);
+
+        result(null, res);
     });
 };
+
+// Comment list 조회
+const getCommentList = (q: any) => {
+    const offset = (q.commentPage - 1) * q.commentLimit;
+    const limit = parseInt(q.commentLimit);
+    let sql = q.table;
+    const table = {
+        freeBoard: "SELECT * FROM korep.free_comment where b_id=? order by id limit ?, ?; ",
+        // qnaBoard: 'SELECT count(*) as count FROM korep.qna_board',
+    }
+
+    // 게시판 유형에 따라 다른 쿼리문 실행
+    if (q.table === 'free-board') {
+        sql = table.freeBoard;
+    }
+    else if (q.table === 'notice') {
+        sql = 'notice';
+    }
+    else if (q.table === 'qna') {
+        sql = 'qna';
+    }
+    return mysql.format(sql, [q.no, offset, limit]);
+}
 
 // Board 조회수 증가
 Board.increaseView = (q: any, result: any) => {

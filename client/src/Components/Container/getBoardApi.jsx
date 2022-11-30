@@ -14,7 +14,7 @@ const postBoard = async(table, data) => {
 }
 
 
-// freeBoard 전체 리스트 받아오기.
+// freeBoard 해당 페이지 게시판 리스트 받아오기.
 const getListBoard = async(table, page, limit) => {
     const res = await axios.get(serverIp + "/list", {
         params: {
@@ -26,18 +26,23 @@ const getListBoard = async(table, page, limit) => {
     return res.data; // 최신화 위해 역순으로 정렬.
 }
 
-// freeBoard 글 조회.
-const getViewBoard = async(table, page, no) => {
+// freeBoard 게시글 조회.
+const getViewBoard = async(table, page, no, commentPage, commentLimit) => {
     const res = await axios.get(serverIp + "/view", {
         params: {
+            type: "board",
             table: table,
             page: page,
-            no: no
+            no: no,
+            commentPage: commentPage === null ? 1 : commentPage,
+            commentLimit: commentLimit === null ? 30 : commentLimit,
         }
     });
+
+    console.log(res.data);
+
     return res.data;
 }
-
 
 // freeBoard 글 수정.
 const putBoard = async(table, page, no, boardData) => {

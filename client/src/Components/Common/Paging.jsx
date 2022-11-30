@@ -1,21 +1,14 @@
 import styled from "styled-components";
 
-const Paging = ({totalCount, limit, page, setPage, handleSearchParams, pageRangeDisplayed}) => {
-  const numPages = Math.ceil(totalCount / limit);
-  // const pageRange = parseInt(page / pageRangeDisplayed) * pageRangeDisplayed + 1;);
-  const pageRange = parseInt(Math.floor((page - 1) / pageRangeDisplayed)) * pageRangeDisplayed;
+const Paging = ({
+  totalCount,
+  limit, page,
+  setPage,
+  handleSearchParams,
+  pageRangeDisplayed}) => {
 
-  console.log("numPages: ", numPages);
-
-  const handlePrevPage = (page) => {
-    setPage(page);
-    handleSearchParams(page);
-  }
-
-  const handleNextPage = (page) => {
-    setPage(page);
-    handleSearchParams(page);
-  }
+  const numPages = Math.ceil(totalCount / limit); // 총 페이지 수
+  const pageRange = parseInt(Math.floor((page - 1) / pageRangeDisplayed)) * pageRangeDisplayed; // 페이지 범위
 
   return (
     <>
