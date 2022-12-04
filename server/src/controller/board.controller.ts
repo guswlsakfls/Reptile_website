@@ -1,5 +1,4 @@
 import Board from "../models/board.mode";
-import Comment from "../models/comment.mode";
 
 // 새 객체 생성
 exports.create = (req: any, res: any) => {
@@ -46,66 +45,40 @@ exports.findList = (req: any,res: { status: (arg0: number) => { (): any; new(): 
 
 // id로 게시글 조회
 exports.findOne = (req: any, res: any)=>{
-  console.log("req.query: ", req.query);
+  // console.log("req.query: ", req.query);
   // 게시글 조회
-  if (req.query.type === "board") {
-    Board.findBoardByID(req.query, (err: { kind: string; }, data: any) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found Board with table, page, no ${req.query}.`
-          });
-          return ;
-        }
-        else {
-          res.status(500).send({
-            message: "Error retrieving Board with table, page, no " + req.query
-          });
-          return ;
-        }
-      }
-      else {
-        res.send(data);
+  Board.findBoardByID(req.query, (err: { kind: string; }, data: any) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Board with table, page, no ${req.query}.`
+        });
         return ;
       }
-      });
+      else {
+        res.status(500).send({
+          message: "Error retrieving Board with table, page, no " + req.query
+        });
+        return ;
+      }
+    }
+    else {
+      res.send(data);
+      return ;
+    }
+    });
 
-    // 쿠키 체크
-    const cookieName = req.query.table + "_" + req.query.no;
-    if (req.cookies[cookieName] === undefined) {
-      // 쿠키가 없으면 쿠키 생성
-      res.cookie(cookieName, "true", {maxAge: 1000*60*10});
-      // 조회수 증가
-      Board.increaseView(req.query, (err: { kind: string; }, data: any) => {
-        if (err) {
-          if (err.kind === "not_found") {
-            res.status(404).send({
-              message: "Not found Board with table, page, no" + req.query
-            });
-            return ;
-          }
-          else {
-            res.status(500).send({
-              message: "Error retrieving Board with table, page, no " + req.query
-            });
-            return ;
-          }
-        }
-        console.log("조회수 증가");
-      });
-    }
-    // 쿠키가 있으면 쿠키 확인
-    else if (req.cookies[cookieName] === "true") {
-      // 쿠키가 같으면 조회수 증가 안함
-      console.log("board page cookie same");
-    }
-  }
-  else if (req.query.type === "comment") {
-    Comment.findCommentList(req.query, (err: { kind: string; }, data: any) => {
+  // 쿠키 체크
+  const cookieName = req.query.table + "_" + req.query.no;
+  if (req.cookies[cookieName] === undefined) {
+    // 쿠키가 없으면 쿠키 생성
+    res.cookie(cookieName, "true", {maxAge: 1000*60*10});
+    // 조회수 증가
+    Board.increaseView(req.query, (err: { kind: string; }, data: any) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Board with table, page, no ${req.query}.`
+            message: "Not found Board with table, page, no" + req.query
           });
           return ;
         }
@@ -116,11 +89,13 @@ exports.findOne = (req: any, res: any)=>{
           return ;
         }
       }
-      else {
-        res.send(data);
-        return ;
-      }
-      });
+      console.log("조회수 증가");
+    });
+  }
+  // 쿠키가 있으면 쿠키 확인
+  else if (req.cookies[cookieName] === "true") {
+    // 쿠키가 같으면 조회수 증가 안함
+    console.log("board page cookie same");
   }
 };
 
@@ -168,14 +143,14 @@ exports.delete = (req: {query: any},res: { status: (arg0: number) => { (): any; 
     });
 };
 
-// 전체 삭제(필요 없을듯)
-exports.deleteAll = (req: any,res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: any; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
-    Board.removeAll((err: { message: any; }, data: any) => {
-        if (err)
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while removing all customers."
-          });
-        else res.send({ message: `All Customers were deleted successfully!` });
-      });
-};
+// // 전체 삭제(필요 없을듯)
+// exports.deleteAll = (req: any,res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: any; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
+//     Board.removeAll((err: { message: any; }, data: any) => {
+//         if (err)
+//           res.status(500).send({
+//             message:
+//               err.message || "Some error occurred while removing all customers."
+//           });
+//         else res.send({ message: `All Customers were deleted successfully!` });
+//       });
+// };

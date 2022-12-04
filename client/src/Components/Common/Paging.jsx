@@ -14,7 +14,7 @@ const Paging = ({
     <>
       <Nav>
         <Button onClick={() => {
-          setPage((Math.floor((page - 1)/pageRangeDisplayed) - 1) * 5 + 1);
+          setPage((Math.floor((page - 1)/pageRangeDisplayed) - 1) * 5 + 5);
           handleSearchParams((Math.floor((page - 1)/pageRangeDisplayed) - 1) * 5 + 1);}}
           disabled={page <= 5}
         >

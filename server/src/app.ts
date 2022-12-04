@@ -22,11 +22,14 @@ app.get('/', function (req, res, next) {
 })
 
 app.listen(PORT, () => {
-  console.log(`server is running!\nport = ${PORT}`); 
+  console.log(`server is running!\nport = ${PORT}`);
 })
+
+
+const router_board = require("./routes/board.routes");
+const router_comment = require("./routes/comment.routes");
+app.use('/board', router_board);
+app.use('/comment', router_comment);
 
 // 서버 확인용 로그
 console.log("korep 시작")
-
-const router_board = require("./routes/board.routes");
-app.use('/', router_board);

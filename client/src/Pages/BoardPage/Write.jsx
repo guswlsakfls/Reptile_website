@@ -36,7 +36,16 @@ export default function Write () {
     
     // 제출 이벤트 핸들러
     const handleSubmit = (e) => {
-        // e.preventDefault(); // 뭔 차이지.. -> 새로고침이 안 되는듯, 근데 어디는 써야 하고 어디는 안써야하는지?
+
+        if (title === '') {
+            alert('제목을 입력해주세요.');
+            return;
+        }
+        else if (text === '') {
+            alert('내용을 입력해주세요.');
+            return;
+        }
+
         let boardData = {
             type: '공지',
             title: title,

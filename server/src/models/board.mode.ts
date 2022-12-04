@@ -127,7 +127,6 @@ Board.findBoardByID = (q: any, result: any) => {
     }
 
     sqls += mysql.format(sql, sqlParams);
-    sqls += getCommentList(q); // 댓글 조회
     
     db.query(sqls, (err, res) => {
         if (err) {
@@ -141,29 +140,6 @@ Board.findBoardByID = (q: any, result: any) => {
         result(null, res);
     });
 };
-
-// Comment list 조회
-const getCommentList = (q: any) => {
-    const offset = (q.commentPage - 1) * q.commentLimit;
-    const limit = parseInt(q.commentLimit);
-    let sql = q.table;
-    const table = {
-        freeBoard: "SELECT * FROM korep.free_comment where b_id=? order by id limit ?, ?; ",
-        // qnaBoard: 'SELECT count(*) as count FROM korep.qna_board',
-    }
-
-    // 게시판 유형에 따라 다른 쿼리문 실행
-    if (q.table === 'free-board') {
-        sql = table.freeBoard;
-    }
-    else if (q.table === 'notice') {
-        sql = 'notice';
-    }
-    else if (q.table === 'qna') {
-        sql = 'qna';
-    }
-    return mysql.format(sql, [q.no, offset, limit]);
-}
 
 // Board 조회수 증가
 Board.increaseView = (q: any, result: any) => {
@@ -258,21 +234,21 @@ Board.remove = (q: any, result: any) => {
     });
 };
 
-// Board 전체 삭제
-Board.removeAll = (result: any) => {
-    db.query('DELETE FROM freeBoard', (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null)
-            return ;
-        }
-        if (res.affectedRows == 0) {
-            result({kind: "not_found"}, null);
-            return ;
-        }
-        console.log(`deleted ${res.affectedRows} freeBoard`);
-        result(null, res);
-    });
-};
+// // Board 전체 삭제
+// Board.removeAll = (result: any) => {
+//     db.query('DELETE FROM freeBoard', (err, res) => {
+//         if (err) {
+//             console.log("error: ", err);
+//             result(err, null)
+//             return ;
+//         }
+//         if (res.affectedRows == 0) {
+//             result({kind: "not_found"}, null);
+//             return ;
+//         }
+//         console.log(`deleted ${res.affectedRows} freeBoard`);
+//         result(null, res);
+//     });
+// };
 
 export default Board;

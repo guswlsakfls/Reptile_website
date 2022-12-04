@@ -27,20 +27,14 @@ const getListBoard = async(table, page, limit) => {
 }
 
 // freeBoard 게시글 조회.
-const getViewBoard = async(table, page, no, commentPage, commentLimit) => {
+const getViewBoard = async(table, page, no) => {
     const res = await axios.get(serverIp + "/view", {
         params: {
-            type: "board",
             table: table,
             page: page,
-            no: no,
-            commentPage: commentPage === null ? 1 : commentPage,
-            commentLimit: commentLimit === null ? 30 : commentLimit,
+            no: no
         }
     });
-
-    console.log(res.data);
-
     return res.data;
 }
 

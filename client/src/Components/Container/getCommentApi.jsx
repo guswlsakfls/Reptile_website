@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const serverIp = process.env.REACT_APP_API_URL + "/board";
+const serverIp = process.env.REACT_APP_API_URL + "/comment";
 
 const postComment = async(table, no, commentData) => {
-    const res = await axios.post(serverIp + "/view", {
+    const res = await axios.post(serverIp + "/write", {
         params: {
             table: table,
             no: no
@@ -13,10 +13,10 @@ const postComment = async(table, no, commentData) => {
     return res.data;
 }
 
+// comment 리스트 조회
 const getCommentList = async(table, no, commentPage, commentLimit) => {
-    const res = await axios.get(serverIp + "/view", {
+    const res = await axios.get(serverIp + "/list", {
         params: {
-            type: "comment",
             table: table,
             no: no,
             commentPage: commentPage === null ? 1 : commentPage,
