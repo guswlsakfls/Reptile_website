@@ -15,7 +15,7 @@ exports.create = (req: any, res: any) => {
     nickname: data.nickname,
     date: data.date,
     view: data.view,
-    like: data.like,
+    hit: data.hit,
     text: data.text,
   });
   // 데이터베이스에 저장
@@ -100,7 +100,7 @@ exports.findOne = (req: any, res: any)=>{
 };
 
 // id로 게시글 수정
-exports.update = (req: {body: {params: any ,boardData: { id: number; type: string; title: any; nickname: string; date: string; view: number; like: number; text: string; }}}, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
+exports.update = (req: {body: {params: any ,boardData: { id: number; type: string; title: any; nickname: string; date: string; view: number; hit: number; text: string; }}}, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
   console.log(req.body);
   
   // Validate Request

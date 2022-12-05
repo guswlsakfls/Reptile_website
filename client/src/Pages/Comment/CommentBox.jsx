@@ -10,11 +10,6 @@ export default function CommentBox({
     
     const [comment, setComment] = useState("");
     
-    
-    console.log(pId);
-    console.log(nickname);
-    
-    
     const handleSubmit = () => {
 
         if (comment === "") {
@@ -24,12 +19,13 @@ export default function CommentBox({
 
         let commentData = {
             b_id: no,
-            p_id: id,
+            p_id: id, // 그냥 대댓글이면
             m_id: 1,
             hit: 0,
             text: comment
         }
 
+        // 대댓글에 댓글 이면
         if (pId !== null) {
             commentData = {
                 ...commentData,
@@ -45,7 +41,7 @@ export default function CommentBox({
             }
         }
 
-        // 대댓글에 댓글이면
+        // 대댓글에 댓글이면 @표시
         if (nickname !== undefined) {
             commentData = {
                 ...commentData,
@@ -66,10 +62,15 @@ export default function CommentBox({
         // else {
             postComment(table, no, commentData)
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 setSelectedCommentIndex(null);
-                handleGetCommentList(true);
-                setCommentPage(Math.ceil(commentCount / commentLimit));
+                if (commentData.p_id !== undefined) {
+                    handleGetCommentList(false);
+                }
+                else {
+                    handleGetCommentList(true);
+                    setCommentPage(Math.ceil(commentCount / commentLimit)); // 댓글이면 마지막 페이지로 이동
+                }
                 setComment("");
             })
             .catch(err => console.log(err));

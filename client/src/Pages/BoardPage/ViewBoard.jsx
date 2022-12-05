@@ -17,19 +17,12 @@ export default function ViewBoard() {
     const page = parseInt(searchParams.get("page")) || 1;
     const no = parseInt(searchParams.get("no")) || null;
 
-    const [commentList, setCommentList] = useState([]);
     const commentPage = parseInt(searchParams.get("commentPage")) || 1;
-    const [commentLimit, setCommentLimit] = useState(30); // 한 페이지에 보여줄 포스트 갯수
-    const [pageRangeDisplayed, setPageRangeDisplayed] = useState(30) // 보여줄 페이지 범위 개수
 
     useEffect(() => {
         getViewBoard(table, page, no)
         .then(res => {
             setBoardList(res[0]);
-            // setCommentList(res[1]);
-
-            // console.log("res[0]: ",res[0][0])
-            // console.log("res[1]: ", res[1][1])
         })
         .catch(err => console.log(err));
     }, [])

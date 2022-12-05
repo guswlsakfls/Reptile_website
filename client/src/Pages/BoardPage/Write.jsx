@@ -52,7 +52,7 @@ export default function Write () {
             nickname: '운영자',
             date: data.date,
             view: 0,
-            like: 0,
+            hit: 0,
             text: text,
         }
 

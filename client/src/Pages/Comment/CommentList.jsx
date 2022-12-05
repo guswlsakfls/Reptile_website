@@ -3,7 +3,7 @@ import img from "../../Assets/8.jpg";
 import CommentBox from "./CommentBox"
 
 export default function CommentList({
-    index, date, text, hit, isSelected,
+    index, date, text, hit, nickTag,isSelected,
     setSelectedCommentIndex, id, pId, setPid,
     table, no, setCommentPage,
     commentCount, commentLimit, handleGetCommentList }) {
@@ -39,6 +39,7 @@ export default function CommentList({
                                 <CommentPopUp>:</CommentPopUp>
                             </Right>
                         </Info>
+                        <NickTag>{nickTag !== null &&`@${nickTag}`}</NickTag>
                         <div>{text}</div>
                         {isSelected &&
                         <CommentBox
@@ -46,7 +47,7 @@ export default function CommentList({
                             no={no}
                             pId={pId}
                             id={id}
-                            nickname={"침착맨"}
+                            nickname={"조현진"}
                             setCommentPage={setCommentPage}
                             commentCount={commentCount}
                             handleGetCommentList={handleGetCommentList}
@@ -84,7 +85,8 @@ const Info = styled.div`
     justify-content: space-between;
     margin-bottom: 5px;
     font-size: 0.9em;
-    height: 33px;
+    margin-top: 5px;
+    margin-bottom: 10px;
     `
 
 const Right = styled.div`
@@ -151,38 +153,9 @@ const CommentPopUp = styled.button`
         background-color: #e9ecef;
     }
     `
-    // {commentReply.filter(isReplyComment).map((reply, index) => (
-    //     <Container key={index} margin={"35px"}>
-    //         <Main>
-    //             {/* 이미지 넣어야함 */}
-    //             <UserImg src={img}></UserImg>
-    //             <CommentWrapper>
-    //                 <Info>
-    //                     <Left>
-    //                         {/* 회원정보 불러와 닉네임 */}
-    //                         <div>운영자</div>
-    //                         {/* <div>{comment.nickname}</div> */}
-    //                         <div>{reply.date}</div>
-    //                     </Left>
-    //                     <Right>
-    //                         <CommentReply onClick={updateReplyBox}>{(isReplySelected && "닫기") || "댓글"}</CommentReply>
-    //                         <CommentLike>침하하</CommentLike>
-    //                         <CommentPopUp>:</CommentPopUp>
-    //                     </Right>
-    //                 </Info>
-    //                 <div>{reply.text}</div>
-    //                 {isReplySelected &&
-    //                 <CommentBox 
-    //                     table={table}
-    //                     no={no}
-    //                     pId={pId}
-    //                     setCommentPage={setCommentPage}
-    //                     commentCount={commentCount}
-    //                     handleGetCommentList={handleGetCommentList}
-    //                     commentLimit={commentLimit}
-    //                     setSelectedCommentIndex={setSelectedCommentIndex}
-    //                 />}
-    //             </CommentWrapper>
-    //         </Main>
-    //     </Container>
-    // ))}
+
+const NickTag = styled.div`
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 5px;
+`

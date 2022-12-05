@@ -4,16 +4,16 @@ import mysql from 'mysql';
 const Board = (Board: {
     id: number; type: string; title: string;
     nickname: string; date: string; view: number;
-    like: number; text: string; }) => {
+    hit: number; text: string; }) => {
         const id = Board.id;
         const type = Board.type;
         const title = Board.title;
         const nickname = Board.nickname;
         const date = Board.date;
         const view = Board.view;
-        const like = Board.like;
+        const hit = Board.hit;
         const text = Board.text;
-        return ({id, type, nickname, date, view, like, title, text})
+        return ({id, type, nickname, date, view, hit, title, text})
 }
 
 // Board 튜플 추가

@@ -61,7 +61,7 @@ Comment.findCommentList = (q: any, result: any) => {
     const sqlParams = [q.no, offset, limit];
     let sql = q.table;
     const table = {
-        freeComment: "SELECT id, p_id, m_id, hit, date, text FROM korep.free_comment WHERE b_id = ? ORDER BY IF(ISNULL(p_id), id, p_id), id limit ?, ?; ",
+        freeComment: "SELECT id, p_id, m_id, hit, date, text, nick_tag FROM korep.free_comment WHERE b_id = ? ORDER BY IF(ISNULL(p_id), id, p_id), id limit ?, ?; ",
         // qnaBoard: 'SELECT * FROM korep.qna_board order by id desc limit ?, ?',
     }
     let sqls = "";
