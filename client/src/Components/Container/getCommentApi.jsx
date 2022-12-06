@@ -26,27 +26,39 @@ const getCommentList = async(table, no, commentPage, commentLimit) => {
     return res.data;
 }
 
-const putComment = async(table, no, commentPage, commentData) => {
-    const res = await axios.put(serverIp + "/view", {
+// comment 수정을 위한 조회
+const getCommentId = async(table, id) => {
+    const res = await axios.get(serverIp + "/view", {
         params: {
             table: table,
-            no: no,
-            commentPage: commentPage
-        },
-        commentData
-    });
-    return res.data;
-}
-
-const deleteComment = async(table, no, commentPage) => {
-    const res = await axios.delete(serverIp + "/view", {
-        params: {
-            table: table,
-            no: no,
-            commentPage: commentPage
+            id: id
         }
     });
     return res.data;
 }
 
-export { getCommentList, postComment, putComment, deleteComment };
+// comment 수정
+const putCommentId = async(table, id, updateComment) => {
+    const res = await axios.put(serverIp + "/write", {
+        params: {
+            table: table,
+            id: id
+        },
+        comment: updateComment
+    });
+    return res.data;
+}
+
+const deleteComment = async(table, no, id, pId) => {
+    const res = await axios.delete(serverIp + "/view", {
+        params: {
+            table: table,
+            no: no,
+            id: id,
+            p_id: pId,
+        }
+    });
+    return res.data;
+}
+
+export { getCommentList, postComment, getCommentId, putCommentId, deleteComment };

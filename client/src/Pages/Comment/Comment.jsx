@@ -21,6 +21,8 @@ export default function Comment({
     const [selectedCommentIndex, setSelectedCommentIndex] = useState();
     const [pId, setPid] = useState(null);
 
+    const [selectedModalIndex, setSelectedModalIndex] = useState();
+
     const handleGetCommentList = (flagPost) => {
         getCommentList(table, no, commentPage, commentLimit)
         .then(res => {
@@ -60,12 +62,14 @@ export default function Comment({
                     hit={comment.hit}
                     nickTag={comment.nick_tag}
                     setSelectedCommentIndex={setSelectedCommentIndex}
-                    isSelected={selectedCommentIndex === index ? true : false}
+                    isSelectedReply={selectedCommentIndex === index ? true : false}
                     handleGetCommentList={handleGetCommentList}
                     commentCount={commentCount}
                     commentPage={commentPage}
                     setCommentPage={setCommentPage}
                     commentLimit={commentLimit}
+                    isSelectedModal={selectedModalIndex === index ? true : false}
+                    setSelectedModalIndex={setSelectedModalIndex}
                 />
             ))}
             <Paging 

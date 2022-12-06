@@ -55,49 +55,76 @@ exports.findList = (req: any,res: { status: (arg0: number) => { (): any; new(): 
     });
 };
 
-// // id로 게시글 수정
-// exports.update = (req: {body: {params: any ,commentData: { id: number; type: string; title: any; nickname: string; date: string; view: number; hit: number; text: string; }}}, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
-//   console.log(req.body);
+// id로 게시글 조회
+exports.findOne = (req: {query: any},res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
+    // 댓글 조회
+    Comment.findCommentById(req.query, (err: { kind: string; }, data: any) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                message: `Not found Comment with table, page, no ${req.query}.`
+                });
+                return ;
+            }
+            else {
+                res.status(500).send({
+                message: "Error retrieving Comment with table, page, no " + req.query
+                });
+                return ;
+            }
+            }
+            else {
+                console.log("send: ", data);
+                res.send(data);
+                return ;
+        }
+    });
+}
+
+
+// id로 게시글 수정
+exports.update = (req: {body: {params: any ,comment: string}}, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: any) => void; })=>{
+  console.log(req.body);
   
-//   // Validate Request
-//   if (!req.body.commentData) {
-//     res.status(400).send({
-//       message: "Content can not be empty!"
-//     });
-//   }
+  // Validate Request
+  if (!req.body.comment) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
 
-//   Comment.updateByID(req.body.params, Comment(req.body.commentData), (err: { kind: string; }, data: any) => {
-//       if (err) {
-//         if (err.kind === "not_found") {
-//           res.status(404).send({
-//             message: `Not found Comment with id ${req.body.params.id}.`
-//           });
-//         } else {
-//           res.status(500).send({
-//             message: "Error updating Comment with id " + req.body.params.id
-//           });
-//         }
-//       } else res.send(data);
-//     }
-//   );
-// };
+  Comment.updateById(req.body, (err: { kind: string; }, data: any) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Comment with id ${req.body.params.id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating Comment with id " + req.body.params.id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
 
-// // id로 게시글 삭제
-// exports.delete = (req: {query: any},res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
-//   Comment.remove(req.query, (err: { kind: string; }, data: any) => {
-//       if (err) {
-//         if (err.kind === "not_found") {
-//           res.status(404).send({
-//             message: `Not found Comment with id ${req.query.no}.`
-//           });
-//         } else {
-//           res.status(500).send({
-//             message: "Could not delete Comment with id " + req.query.no
-//           });
-//         }
-//       } else res.send({ message: `Comment was deleted successfully!` });
-//     });
-// };
+// id로 게시글 삭제
+exports.delete = (req: {query: any},res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: string; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{
+  Comment.remove(req.query, (err: { kind: string; }, data: any) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Comment with id ${req.query.no}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Could not delete Comment with id " + req.query.no
+          });
+        }
+      } else res.send({ message: `Comment was deleted successfully!` });
+    });
+};
 
 // // 전체 삭제(필요 없을듯)
 // exports.deleteAll = (req: any,res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { message: any; }): void; new(): any; }; }; send: (arg0: { message: string; }) => void; })=>{

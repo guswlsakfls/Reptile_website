@@ -92,7 +92,7 @@ Comment.findCommentList = (q: any, result: any) => {
     })
 }
 
-// // Board 총 list 숫자 조회
+// Comment 총 list 숫자 조회
 const getListCount = (q: any) => {
     let sql = q.table;
     const table = {
@@ -111,6 +111,79 @@ const getListCount = (q: any) => {
         sql = 'qna';
     }
     return mysql.format(sql, [q.no]);
+}
+
+// Comment id로 조회
+Comment.findCommentById = (q: any, result: any) => {
+
+
+    db.query(`SELECT * FROM korep.free_comment WHERE id = ${q.id}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return ;
+        }
+        if (res.length) {
+            console.log("found comment: ", res[0]);
+            result(null, res[0]);
+            return ;
+        }
+        result({kind: "not_found"}, null);
+    });
+}
+
+// Comment 수정
+Comment.updateById = (q: any, result: any) => {
+    db.query("UPDATE korep.free_comment SET text = ? WHERE id = ?", [q.comment, q.params.id], (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return ;
+        }
+        if (res.affectedRows == 0) {
+            result({kind: "not_found"}, null);
+            return ;
+        }
+        console.log("updated comment: ", q.params.id, q.comment);
+        result(null, q.id, q.text);
+    });
+}
+
+// Comment id로 삭제
+Comment.remove = (q: any, result: any) => {
+    console.log(q);
+
+    let sql = q.table;
+    const table = {
+        freeComment: "DELETE FROM korep.free_comment WHERE id = ? OR p_id = ?",
+        // qnaBoard: 'SELECT count(*) as count FROM korep.qna_board',
+    }
+
+    // 게시판 유형에 따라 다른 쿼리문 실행
+    if (q.table === 'free-board') {
+        sql = table.freeComment;
+    }
+    else if (q.table === 'notice') {
+        sql = 'notice';
+    }
+    else if (q.table === 'qna') {
+        sql = 'qna';
+    }
+
+    db.query(sql, [q.id, q.id], (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return ;
+        }
+        if (res.affectedRows == 0) {
+            // not found Comment with the id
+            result({ kind: "not_found" }, null);
+            return ;
+        }
+        console.log("deleted comment with id: ", q.id);
+        result(null, res);
+    });
 }
 
 export default Comment;

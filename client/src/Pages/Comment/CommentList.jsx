@@ -1,21 +1,74 @@
+import { useState } from 'react';
 import styled from "styled-components";
 import img from "../../Assets/8.jpg";
+import { Button } from "../BoardPage/Board.element";
 import CommentBox from "./CommentBox"
+import { deleteComment, getCommentId } from "../../Components/Container/getCommentApi";
 
 export default function CommentList({
-    index, date, text, hit, nickTag,isSelected,
+    index, date, text, hit, nickTag, isSelectedReply,
     setSelectedCommentIndex, id, pId, setPid,
     table, no, setCommentPage,
-    commentCount, commentLimit, handleGetCommentList }) {
+    commentCount, commentLimit, handleGetCommentList,
+    isSelectedModal, setSelectedModalIndex }) {
 
-    const updateCommentBox = (e) => {
-        if (isSelected) {
+    const [lastComment, setLastComment] = useState("");
+    const [isUpdateSelected, setIsUpdateSelected] = useState(false);
+
+    // const clickGetCommentId = () => {
+    //     getCommentId(table, no, id)
+    //     .then(res => {
+    //         console.log(res);
+    //         setLastComment(res.text);
+    //     })
+    //     .catch(err => console.log(err));
+    // };
+
+    const clickReplyBox = () => {
+        if (isSelectedReply) {
             setSelectedCommentIndex();
         }
         else {
             setSelectedCommentIndex(index);
         }
         setPid(pId);
+    }
+
+    const popUpBox = () => {
+        if (isSelectedModal) {
+            setSelectedModalIndex();
+        }
+        else {
+            setSelectedModalIndex(index);
+        }
+    }
+
+    const clickUpdateComment = () => {
+        console.log("update");
+        if (isUpdateSelected === false) {
+            getCommentId(table, id)
+            .then(res => {
+                console.log(res);
+                setLastComment(res.text);
+                setSelectedCommentIndex(index);
+                setIsUpdateSelected(true);
+            })
+            .catch(err => console.log(err));
+        }
+        else {
+            setIsUpdateSelected(false);
+            setSelectedCommentIndex();
+            setLastComment("");
+        }
+    }
+
+    const clickDeleteComment = () => {
+        deleteComment(table, no, id, pId)
+        .then(res => {
+            console.log(res);
+            handleGetCommentList();
+        })
+        .catch(err => console.log(err));
     }
 
     return (
@@ -34,14 +87,22 @@ export default function CommentList({
                                 <div>{hit}</div>
                             </Left>
                             <Right>
-                                <CommentReply onClick={updateCommentBox}>{(isSelected && "닫기") || "댓글"}</CommentReply>
+                                <CommentReply onClick={clickReplyBox}>{(isSelectedReply && "닫기") || "댓글"}</CommentReply>
                                 <CommentLike>침하하</CommentLike>
-                                <CommentPopUp>:</CommentPopUp>
+                                <CommentPopUp onClick={popUpBox}>
+                                    :
+                                    {(isSelectedModal &&
+                                        <ModalUl>
+                                            <ModalLi><Button onClick={clickUpdateComment}>
+                                                {isUpdateSelected === false ? "수정" : "x닫기"}</Button></ModalLi>
+                                            <ModalLi><Button onClick={clickDeleteComment}>삭제</Button></ModalLi>
+                                        </ModalUl>) || ""}
+                                </CommentPopUp>
                             </Right>
                         </Info>
                         <NickTag>{nickTag !== null &&`@${nickTag}`}</NickTag>
                         <div>{text}</div>
-                        {isSelected &&
+                        {isSelectedReply &&
                         <CommentBox
                             table={table}
                             no={no}
@@ -53,6 +114,9 @@ export default function CommentList({
                             handleGetCommentList={handleGetCommentList}
                             commentLimit={commentLimit}
                             setSelectedCommentIndex={setSelectedCommentIndex}
+                            lastComment={lastComment}
+                            setLastComment={setLastComment}
+                            isUpdateSelected={isUpdateSelected}
                         />}
                     </CommentWrapper>
                 </Main>
@@ -60,6 +124,26 @@ export default function CommentList({
         </>
     )
 }
+
+const ModalUl = styled.ul`
+    display: flex;
+    position: absolute;
+    top: 20px;
+    padding: 8px;
+    right: 0;
+    z-index: 1;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+`;
+
+const ModalLi = styled.li`
+    align-items: center;
+`;
 
 const Container = styled.div`
     display: flex;
@@ -93,6 +177,7 @@ const Right = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
     /* gap: 10px; */
     `
 
@@ -140,7 +225,7 @@ const CommentLike = styled.button`
     }
     `
 
-const CommentPopUp = styled.button`
+const CommentPopUp = styled.div`
     /* height: 30px; */
     padding: 1px;
     /* font-size: 0.8em; */

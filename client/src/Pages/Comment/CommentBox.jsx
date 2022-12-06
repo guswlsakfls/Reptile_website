@@ -1,15 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styled from "styled-components";
 import moment from "moment";
-import { postComment } from "../../Components/Container/getCommentApi";
+import { postComment, getCommentId, putCommentId } from "../../Components/Container/getCommentApi";
 
 export default function CommentBox({
     table, no, id, pId, nickname,handleGetCommentList,
     commentCount, setCommentPage, commentLimit,
-    setSelectedCommentIndex }) {
+    setSelectedCommentIndex, lastComment, isUpdateSelected }) {
     
     const [comment, setComment] = useState("");
-    
+
     const handleSubmit = () => {
 
         if (comment === "") {
@@ -51,15 +51,17 @@ export default function CommentBox({
 
         console.log(commentData);
 
-        // if (no) {
-        //     putBoard(table, page, no, commentData)
-        //     .then(res => {
-        //         console.log(res);
-        //     })
-        //     .catch(err => console.log(err));
-        //     navigate(`/board/view?table=${table}&page=${page}&no=${no}`);
-        // }
-        // else {
+        // 댓글 수정이면
+        if (isUpdateSelected === true && id !== null) {
+            putCommentId(table, id, comment)
+            .then(res => {
+                handleGetCommentList(false);
+                setSelectedCommentIndex();
+                console.log(res);
+            })
+            .catch(err => console.log(err));
+        }
+        else {
             postComment(table, no, commentData)
             .then(res => {
                 // console.log(res)
@@ -74,12 +76,18 @@ export default function CommentBox({
                 setComment("");
             })
             .catch(err => console.log(err));
-        // }
+        }
     }
 
     const changeComment = (e) => {
         setComment(e.target.value);
     }
+
+    useEffect(() => {
+        if (isUpdateSelected === true) {
+            setComment(lastComment);
+        }
+    }, [])
 
     return(
         <>
@@ -98,7 +106,7 @@ const Textarea = styled.textarea`
     resize: none;
     border: none;
     padding: 10px;
-    font-size: 14px;
+    font-size: 10px;
     outline: none;
 `
 
