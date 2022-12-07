@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 import img from "../../Assets/8.jpg";
 import { Button } from "../BoardPage/Board.element";
@@ -6,14 +6,20 @@ import CommentBox from "./CommentBox"
 import { deleteComment, getCommentId } from "../../Components/Container/getCommentApi";
 
 export default function CommentList({
-    index, date, text, hit, nickTag, isSelectedReply,
+    index, date, text, hit, nickTag,
     setSelectedCommentIndex, id, pId, setPid,
     table, no, setCommentPage,
     commentCount, commentLimit, handleGetCommentList,
-    isSelectedModal, setSelectedModalIndex }) {
+    isSelectedModal, setSelectedModalIndex}) {
+
+    // isSelectedCommentBox,
 
     const [lastComment, setLastComment] = useState("");
-    const [isUpdateSelected, setIsUpdateSelected] = useState(false);
+    const [isSelectedComment, setIsSelectedComment] = useState(false);
+    const [isSelectedUpdate, setIsSelectedUpdate] = useState(false);
+    const [isSelectedCommentBox, setIsSelectedCommentBox] = useState(false);
+    const [selectedRef, setSelectedRef] = useState(false);
+    const modalRef = useRef();
 
     // const clickGetCommentId = () => {
     //     getCommentId(table, no, id)
@@ -25,43 +31,51 @@ export default function CommentList({
     // };
 
     const clickReplyBox = () => {
-        if (isSelectedReply) {
-            setSelectedCommentIndex();
+        if (isSelectedUpdate === true && isSelectedCommentBox === true) {
+            setIsSelectedUpdate(false);
+            setIsSelectedComment(true);
+            setLastComment("");
         }
+        // 박스가 열려있으면 닫기
+        else if (isSelectedCommentBox === true) {
+            setIsSelectedComment(false);
+            setSelectedCommentIndex();
+            setIsSelectedCommentBox(false);
+        }
+        // 박스가 닫혀있으면 열기
         else {
+            setLastComment("");
+            setIsSelectedComment(true);
             setSelectedCommentIndex(index);
+            setIsSelectedCommentBox(true);
         }
         setPid(pId);
     }
 
-    const popUpBox = () => {
-        if (isSelectedModal) {
-            setSelectedModalIndex();
-        }
-        else {
-            setSelectedModalIndex(index);
-        }
-    }
-
+    
     const clickUpdateComment = () => {
         console.log("update");
-        if (isUpdateSelected === false) {
+        // setIsSelectedComment(false);
+        setIsSelectedComment(false);
+        if (isSelectedUpdate === false) {
             getCommentId(table, id)
             .then(res => {
                 console.log(res);
                 setLastComment(res.text);
                 setSelectedCommentIndex(index);
-                setIsUpdateSelected(true);
+                setIsSelectedCommentBox(true);
+                setIsSelectedUpdate(true);
             })
             .catch(err => console.log(err));
         }
         else {
-            setIsUpdateSelected(false);
+            setIsSelectedUpdate(false);
             setSelectedCommentIndex();
+            setIsSelectedCommentBox(false);
             setLastComment("");
         }
     }
-
+    
     const clickDeleteComment = () => {
         deleteComment(table, no, id, pId)
         .then(res => {
@@ -71,6 +85,41 @@ export default function CommentList({
         .catch(err => console.log(err));
     }
 
+    const popUpBox = () => {
+        console.log(isSelectedModal)
+        // console.log(selectedRef)
+        // if (isSelectedModal === true) {
+        if (isSelectedModal) {
+            setSelectedModalIndex();
+            // setSelectedRef(false);
+        }
+        else {
+            setSelectedModalIndex(index);
+            // setSelectedRef(true);
+        }
+    }
+    
+    // focus out 되면 모달창 닫기
+    useEffect(() => {
+        document.addEventListener("mouseup", onClickOutside);
+        return () => {
+            document.removeEventListener("mouseup", onClickOutside);
+        };
+    }, [])
+    
+    const onClickOutside = useCallback(({ target }) => {
+        // 태그가 모달창이 아니면
+        if (modalRef.current && !modalRef.current.contains(target)) {
+            // setSelectedRef(true);
+            if (target.className.includes("modalLi") === false) {
+                setSelectedModalIndex();
+            }
+            console.log(modalRef.current)
+            console.log(target.className.includes("modalLi"))
+        }
+        // setSelectedRef(false);
+    }, []);
+    
     return (
         <>
             <Container isReply={pId}>
@@ -87,14 +136,15 @@ export default function CommentList({
                                 <div>{hit}</div>
                             </Left>
                             <Right>
-                                <CommentReply onClick={clickReplyBox}>{(isSelectedReply && "닫기") || "댓글"}</CommentReply>
+                                <CommentReply onClick={clickReplyBox}>{(isSelectedComment && "닫기") || "댓글"}</CommentReply>
                                 <CommentLike>침하하</CommentLike>
-                                <CommentPopUp onClick={popUpBox}>
+                                {/* <CommentPopUp onClick={isSelectedUpdate === false ? popUpBox : undefined}> */}
+                                <CommentPopUp className="modalLi" onClick={popUpBox}>
                                     :
                                     {(isSelectedModal &&
-                                        <ModalUl>
-                                            <ModalLi><Button onClick={clickUpdateComment}>
-                                                {isUpdateSelected === false ? "수정" : "x닫기"}</Button></ModalLi>
+                                        <ModalUl ref={modalRef}>
+                                            <ModalLi ><Button onClick={clickUpdateComment}>
+                                                {isSelectedUpdate === false ? "수정" : "x닫기"}</Button></ModalLi>
                                             <ModalLi><Button onClick={clickDeleteComment}>삭제</Button></ModalLi>
                                         </ModalUl>) || ""}
                                 </CommentPopUp>
@@ -102,22 +152,25 @@ export default function CommentList({
                         </Info>
                         <NickTag>{nickTag !== null &&`@${nickTag}`}</NickTag>
                         <div>{text}</div>
-                        {isSelectedReply &&
-                        <CommentBox
-                            table={table}
-                            no={no}
-                            pId={pId}
-                            id={id}
-                            nickname={"조현진"}
-                            setCommentPage={setCommentPage}
-                            commentCount={commentCount}
-                            handleGetCommentList={handleGetCommentList}
-                            commentLimit={commentLimit}
-                            setSelectedCommentIndex={setSelectedCommentIndex}
-                            lastComment={lastComment}
-                            setLastComment={setLastComment}
-                            isUpdateSelected={isUpdateSelected}
-                        />}
+                        {isSelectedCommentBox &&
+                            <CommentBox
+                                table={table}
+                                no={no}
+                                pId={pId}
+                                id={id}
+                                nickname={"조현진"}
+                                setCommentPage={setCommentPage}
+                                commentCount={commentCount}
+                                handleGetCommentList={handleGetCommentList}
+                                commentLimit={commentLimit}
+                                setSelectedCommentIndex={setSelectedCommentIndex}
+                                lastComment={lastComment}
+                                setLastComment={setLastComment}
+                                isSelectedUpdate={isSelectedUpdate}
+                                setIsSelectedCommentBox={setIsSelectedCommentBox}
+                                setIsSelectedComment={setIsSelectedComment}
+                                setIsSelectedUpdate={setIsSelectedUpdate}
+                            />}
                     </CommentWrapper>
                 </Main>
             </Container>

@@ -11,11 +11,12 @@ export default function Comment({
     page }) {
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const [comment, setComment] = useState("");
 
     const [commentPage, setCommentPage] = useState(1);
     const [commentList, setCommentList] = useState([]);
     const [commentCount, setCommentCount] = useState(0); // api 받아와야함
-    const [commentLimit, setCommentLimit] = useState(30); // 한 페이지에 보여줄 포스트 갯수
+    const [commentLimit, setCommentLimit] = useState(15); // 한 페이지에 보여줄 포스트 갯수
     const [pageRangeDisplayed, setPageRangeDisplayed] = useState(5) // 보여줄 페이지 범위 개수
 
     const [selectedCommentIndex, setSelectedCommentIndex] = useState();
@@ -62,7 +63,7 @@ export default function Comment({
                     hit={comment.hit}
                     nickTag={comment.nick_tag}
                     setSelectedCommentIndex={setSelectedCommentIndex}
-                    isSelectedReply={selectedCommentIndex === index ? true : false}
+                    isSelectedCommentBox={selectedCommentIndex === index ? true : false}
                     handleGetCommentList={handleGetCommentList}
                     commentCount={commentCount}
                     commentPage={commentPage}
@@ -70,6 +71,7 @@ export default function Comment({
                     commentLimit={commentLimit}
                     isSelectedModal={selectedModalIndex === index ? true : false}
                     setSelectedModalIndex={setSelectedModalIndex}
+                    isSelectedComment={selectedCommentIndex === index ? true : false}
                 />
             ))}
             <Paging 
@@ -88,6 +90,8 @@ export default function Comment({
                 handleGetCommentList={handleGetCommentList}
                 commentLimit={commentLimit}
                 setSelectedCommentIndex={setSelectedCommentIndex}
+                lastComment={comment}
+                setLastComment={setComment}
             />
         </>
     )

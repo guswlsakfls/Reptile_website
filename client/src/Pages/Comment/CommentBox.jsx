@@ -6,13 +6,15 @@ import { postComment, getCommentId, putCommentId } from "../../Components/Contai
 export default function CommentBox({
     table, no, id, pId, nickname,handleGetCommentList,
     commentCount, setCommentPage, commentLimit,
-    setSelectedCommentIndex, lastComment, isUpdateSelected }) {
-    
+    setSelectedCommentIndex, lastComment, isSelectedUpdate,
+    setLastComment, setIsSelectedCommentBox, setIsSelectedComment,
+    setIsSelectedUpdate }) {
+
     const [comment, setComment] = useState("");
 
     const handleSubmit = () => {
 
-        if (comment === "") {
+        if (lastComment === "") {
             alert("댓글을 입력해주세요.");
             return;
         }
@@ -22,7 +24,7 @@ export default function CommentBox({
             p_id: id, // 그냥 대댓글이면
             m_id: 1,
             hit: 0,
-            text: comment
+            text: lastComment
         }
 
         // 대댓글에 댓글 이면
@@ -52,11 +54,13 @@ export default function CommentBox({
         console.log(commentData);
 
         // 댓글 수정이면
-        if (isUpdateSelected === true && id !== null) {
-            putCommentId(table, id, comment)
+        if (isSelectedUpdate === true && id !== null) {
+            putCommentId(table, id, lastComment)
             .then(res => {
                 handleGetCommentList(false);
                 setSelectedCommentIndex();
+                setIsSelectedCommentBox(false);
+                setIsSelectedUpdate(false);
                 console.log(res);
             })
             .catch(err => console.log(err));
@@ -65,7 +69,11 @@ export default function CommentBox({
             postComment(table, no, commentData)
             .then(res => {
                 // console.log(res)
-                setSelectedCommentIndex(null);
+                if (id !== undefined) {
+                    setSelectedCommentIndex(null);
+                    setIsSelectedCommentBox(false);
+                    setIsSelectedComment(false);
+                }
                 if (commentData.p_id !== undefined) {
                     handleGetCommentList(false);
                 }
@@ -73,26 +81,26 @@ export default function CommentBox({
                     handleGetCommentList(true);
                     setCommentPage(Math.ceil(commentCount / commentLimit)); // 댓글이면 마지막 페이지로 이동
                 }
-                setComment("");
+                setLastComment("");
             })
             .catch(err => console.log(err));
         }
     }
 
     const changeComment = (e) => {
-        setComment(e.target.value);
+        setLastComment(e.target.value);
+        // setComment(e.target.value);
     }
 
     useEffect(() => {
-        if (isUpdateSelected === true) {
-            setComment(lastComment);
-        }
+        // setComment(lastComment);
+        // setComment(lastComment);
     }, [])
 
     return(
         <>
             <Container>
-                <Textarea value={comment} onChange={changeComment} placeholder="댓글을 작성해주세요" maxLength={1000}></Textarea>
+                <Textarea value={lastComment} onChange={changeComment} placeholder="댓글을 작성해주세요" maxLength={1000}></Textarea>
                 <Button onClick={handleSubmit}>등록</Button>
             </Container>
             <br></br>
