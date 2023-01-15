@@ -12,7 +12,9 @@ export default function CalMorph() {
     const [parentList1, setParentList1] = useState([]); // 부 유전자 리스트
     const [parent2, setParent2] = useState(""); // 모 유전자
     const [parentList2, setParentList2] = useState([]); // 모 유전자 리스트
-    const [result, setResult] = useState([]); // 결과    
+    const [result, setResult] = useState([]); // 결과
+    const [parentsName1, setParentsName1] = useState(""); // 중복제거 부 이름
+    const [parentsName2, setParentsName2] = useState(""); // 중복제거 모 이름
 
     const deletAllInput = (e) => {
         setParentList1([]);
@@ -20,62 +22,89 @@ export default function CalMorph() {
     }
 
     useEffect(() => {
+        // setParentList1(parentsName1);
+        // setParentList2(parentsName2);
+    }, [result]);
 
-    }, );
+    console.log(result);
 
     return (
         <>
             <Navbar />
             <Body>
                 <Div>
-                    <h1>펫 테일게코 계산기</h1><br/>
-                    <h2>번식할 때 짝을 이룰 두 부모 모프를 입력하면 계산기가 유전적 가능성을 표시합니다.</h2><br/>
-                    <InputContiner>
-                        <Ul>
-                            <AddMorphName
-                                morphList={parentList1}
-                                setMorphList={setParentList1}>
-                            </AddMorphName>
-                            <AutoCompleteInput
-                                parent={parent1}
-                                setParent={setParent1}
-                                parentList={parentList1}
-                                setParentList={setParentList1}>
-                            </AutoCompleteInput>
-                        </Ul>
-                    </InputContiner>
-                    x
-                    <InputContiner>
-                        <Ul>
-                            <AddMorphName
-                                morphList={parentList2}
-                                setMorphList={setParentList2}>
-                            </AddMorphName>
-                            <AutoCompleteInput
-                                parent={parent2}
-                                setParent={setParent2}
-                                parentList={parentList2}
-                                setParentList={setParentList2}>
-                            </AutoCompleteInput>
-                        </Ul>
-                    </InputContiner>
-                    <CardButton onClick={(e) => {calculate(parentList1, parentList2, setResult, e)} } >계산</CardButton>
-                    <CardButton onClick={(e) => {deletAllInput(e)}} >삭제</CardButton>
+                    <InputBox>
+                        <h1>펫 테일게코 계산기</h1><br/>
+                        <h2>번식할 때 짝을 이룰 두 부모 모프를 입력하면 계산기가 유전적 가능성을 표시합니다.</h2><br/>
+                        <InputContinerDiv>
+                            <InputContiner>
+                                <Ul>
+                                    <AddMorphName
+                                        morphList={parentList1}
+                                        setMorphList={setParentList1}>
+                                    </AddMorphName>
+                                    <AutoCompleteInput
+                                        parent={parent1}
+                                        setParent={setParent1}
+                                        parentList={parentList1}
+                                        setParentList={setParentList1}>
+                                    </AutoCompleteInput>
+                                </Ul>
+                            </InputContiner>
+                            <p style={{margin: "0 10px"}}>
+                                x
+                            </p>
+                            <InputContiner>
+                                <Ul>
+                                    <AddMorphName
+                                        morphList={parentList2}   
+                                        setMorphList={setParentList2}>
+                                    </AddMorphName>
+                                    <AutoCompleteInput
+                                        parent={parent2}
+                                        setParent={setParent2}
+                                        parentList={parentList2}
+                                        setParentList={setParentList2}>
+                                    </AutoCompleteInput>
+                                </Ul>
+                            </InputContiner>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <CardButton onClick={(e) => {
+                                calculate(parentList1, parentList2, setResult, e, setParentsName1, setParentsName2)
+                            } } >계산</CardButton>
+                            &nbsp;
+                            <CardButton onClick={(e) => {deletAllInput(e)}} >전체 삭제</CardButton>
+                        </InputContinerDiv>
+                    </InputBox>
                     {/* item output to screen */}
                     <ResultBox>
                         <ResultTable>
                             <ResultTableHead>
                                 <ResultTableHeadRow>
+                                    {/* <ResultTableHeadCol>번호</ResultTableHeadCol> */}
                                     <ResultTableHeadCol>유전자</ResultTableHeadCol>
-                                    <ResultTableHeadCol>개수</ResultTableHeadCol>
+                                    <ResultTableHeadCol>유전자 개수</ResultTableHeadCol>
                                     <ResultTableHeadCol>확률</ResultTableHeadCol>
                                 </ResultTableHeadRow>
                             </ResultTableHead>
                             <ResultTableBody>
                                 {result.map((item, index) => (
                                     <ResultTableBodyRow key={index}>
-                                        <ResultTableBodyCol>{item.visual}{item.hetName}</ResultTableBodyCol>
-                                        <ResultTableBodyCol>{item.allCount}</ResultTableBodyCol>
+                                        {/* <ResultTableBodyCol>{index + 1}</ResultTableBodyCol> */}
+                                        <ResultTableBodyCol>
+                                            {item.visual.map((item, id) => (
+                                                <Li key={id}>
+                                                    {item}
+                                                </Li>
+                                            ))}
+                                            {item.hetName.map((item, id) => (
+                                                <Li key={id}>
+                                                    {item}
+                                                </Li>
+                                            ))}
+                                        </ResultTableBodyCol>
+                                        {/* <ResultTableBodyCol>{item.hetName}</ResultTableBodyCol> */}
+                                        <ResultTableBodyCol>{item.visual.length + item.hetName.length}</ResultTableBodyCol>
                                         <ResultTableBodyCol>{item.percent}%</ResultTableBodyCol>
                                     </ResultTableBodyRow>
                                 ))}
@@ -88,7 +117,21 @@ export default function CalMorph() {
     );
 };
 
+const Li = styled.li`
+    border: 1px solid black;
+    padding: 2px;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 5px;
+`
+
 // 인풋 박스
+const InputContinerDiv = styled.div`
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+`
+
 const InputContiner = styled.div`
     width: 250px;
     padding: 5px;
@@ -104,9 +147,11 @@ const Ul = styled.ul`
     margin: 0;
 `
 
-const Datalist = styled.datalist`
-    max-height: 20em;
-    cursor: pointer;
+const InputBox = styled.div`
+    /* margin-top: 100px; */
+    /* text-align: center;  */
+    font-size: 20px;
+    /* display: flex; */
 `
 
 // 여기 까지 연습
@@ -119,11 +164,13 @@ const Div = styled.div`
 const ResultBox = styled.div`
     margin-top: 100px;
     text-align: center;
-    font-size: 50px;
+    font-size: 20px;
 `
 
+
 const ResultTable = styled.table`
-    margin: 0 auto;
+    /* margin: 0 auto; */
+    width: 100%;
     border-collapse: collapse;
     border: 1px solid #000;
 `
@@ -139,6 +186,12 @@ const ResultTableHeadRow = styled.tr`
 const ResultTableHeadCol = styled.th`
     border: 1px solid #000;
     padding: 10px;
+    &:nth-child(2){
+      width: 120px;
+    }
+    &:nth-child(3){
+      width: 70px;
+    }
 `
 
 const ResultTableBody = styled.tbody`
