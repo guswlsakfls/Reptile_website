@@ -5,7 +5,7 @@ const wholeTextArray = [
   'Oreo',
   'Zero',
   'Stripe',
-  'WhiteOut',
+  'Whiteout',
   'Ghost',
   'Normal',
   'Caramel',
