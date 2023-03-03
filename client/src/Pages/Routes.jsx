@@ -1,12 +1,21 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from './Home/Home';
-import Main from './MorphPage/Main';
+import CalMorph from './CalMorph/CalMorph';
+import ViewMorph from './ViewMorph/ViewMorph';
+import Board from './BoardPage/Board';
+import Write from './BoardPage/Write';
+import ViewBoard from './BoardPage/ViewBoard';
 
 export default function RoutesComponent() {
     return (
         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/morph" element={<Main />} />
+            {/* <Route path="/" element={<Home />} /> */}
+            <Route path="/" element={<CalMorph />} /> {/* 일단 계산기만 나오게 하기 */}
+            {/* <Route path="/board/list" element={<Board />} />
+            <Route path="/morph/view" element={<ViewMorph />} />
+            <Route path="/board/view" element={<ViewBoard />} />
+            <Route path="/board/write" element={<Write />} />
+            <Route path="/board/write/:id" element={<Write />} /> */}
         </Routes>
     );
 };

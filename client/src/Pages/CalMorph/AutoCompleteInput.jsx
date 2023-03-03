@@ -4,11 +4,6 @@ import { useState, useEffect } from "react";
 const wholeTextArray = [
   'Oreo',
   'Zero',
-  'ZZZZZ',
-  'zefwef',
-  'zefwefwef',
-  'zeb',
-  'zebzeb',
   'Stripe',
   'WhiteOut',
   'Ghost',
@@ -22,7 +17,6 @@ const wholeTextArray = [
   '노멀',
   '카라멜',
   '헷오레오',
-  '오레오레오헷세'
 ]
 
 const AutoCompleteInput = ({parent, setParent, parentList, setParentList}) => {
@@ -177,7 +171,7 @@ const DropDownBox = styled.ul`
   border-radius: 0 0 16px 16px;
   box-shadow: 0 10px 10px rgb(0, 0, 0, 0.3);
   list-style-type: none;
-  z-index: 3;
+  z-index: 10;
 `
 
 const DropDownItem = styled.li`

@@ -9,7 +9,7 @@ const AddMorphName = ({morphList, setMorphList}) => {
     return (
         morphList.map((item, id) => (
             <Li key={id} onClick={(e) => deleteMorph({setMorphList, morphList, id, e})}>
-                {item}
+                x&nbsp;{item}
             </Li>
         ))
     );
@@ -20,6 +20,7 @@ const Li = styled.li`
     padding: 2px;
     display: inline-block;
     cursor: pointer;
+    margin-right: 5px;
 `
 
 export default AddMorphName
