@@ -8,9 +8,44 @@ const Navbar = () => {
 
   return (
     <>
-      <Container>
+        <Container>
+            <NavContainer>
+                <MenuList>
+                    <MenuListContent
+                    onClick={() => navigate("/")}
+                    >
+                        <Logo>
+                            <img src={logo}></img>
+                        </Logo>
+                    </MenuListContent>
+                    <MenuListContent
+                    isPathMatch={pathname === "/" ? true : false} // 홈화면일때 타이틀 색깔 바뀌는거도 괜찮을 듯?
+                    onClick={() => navigate("/")}
+                    >
+                        <TitleAuto>
+                            KoLab
+                        </TitleAuto>
+                    </MenuListContent>
+                </MenuList>
+                <MenuList>
+                    <MenuListContent
+                        isPathMatch={pathname === "/board/list" ? true : false}
+                        onClick={() => navigate("/board/list?table=free-board")}
+                    >
+                        로그인
+                    </MenuListContent>
+                    <MenuListContent
+                        isPathMatch={pathname === "/board/list" ? true : false}
+                        onClick={() => navigate("/board/list?table=free-board")}
+                    >
+                        회원가입
+                    </MenuListContent>
+                </MenuList>
+            </NavContainer>
+        </Container>
+        <Container>
         <NavContainer>
-            <MenuList>
+            {/* <MenuList>
                 <MenuListContent
                 onClick={() => navigate("/")}
                 >
@@ -26,7 +61,7 @@ const Navbar = () => {
                         KoLab
                     </TitleAuto>
                 </MenuListContent>
-            </MenuList>
+            </MenuList> */}
             <MenuList>
                 <MenuListContent
                 isPathMatch={pathname === "/board/list" ? true : false}
@@ -50,14 +85,24 @@ const Navbar = () => {
                 isPathMatch={pathname === "/login" ? true : false}
                 onClick={() => navigate("/login")}
                 >
-                로그인
                 </MenuListContent>
             </MenuList>
         </NavContainer>
-      </Container>
+        </Container>
     </>
   );
 };
+
+const Container = styled.nav`
+    background-color: ${ (props) => props.theme.color.background };
+    border-bottom: 1px solid black;
+    /* position: fixed;  네비바 위에 고정되서 따라오게끔  */
+    padding: 10px 0px;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+`
 
 const NavContainer = styled.div`
     @media (min-width: 1200px) {
@@ -80,16 +125,6 @@ const NavContainer = styled.div`
     margin-left: auto;
 `;
 
-const Container = styled.nav`
-    background-color: ${ (props) => props.theme.color.background };
-    border-bottom: 1px solid black;
-    position: fixed;
-    padding: 20px 0px;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 10;
-`
 
 const Logo = styled.button`
     width: 40px;

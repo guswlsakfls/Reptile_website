@@ -1,6 +1,6 @@
 import BoardList from "./BoradList";
 import Navbar from "../../Components/Common/Navbar";
-import { Body, Container } from "../../Components/Common/Body";
+import { Body, BodyContainer } from "../../Components/Common/Body";
 import { LinkButton } from "./Board.element";
 import Paging from "../../Components/Common/Paging";
 import { useState, useEffect } from "react";
@@ -42,7 +42,7 @@ export default function Board() {
         <>
             <Navbar />
             <Body>
-                <Container>
+                <BodyContainer>
                     <br></br>
                     <h1>자유 게시판</h1>
                     <hr></hr>
@@ -57,7 +57,7 @@ export default function Board() {
                         pageRangeDisplayed={pageRangeDisplayed}
                     />
                     <LinkButton to={`/board/write/?table=${table}`}>글쓰기</LinkButton>
-                </Container>
+                </BodyContainer>
             </Body>
         </>
     );

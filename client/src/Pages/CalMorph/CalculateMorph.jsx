@@ -96,6 +96,7 @@ const checkName = (gene, alphaValues) => {
             }
         });}
     }
+
     // 중복 제거, 예시) 오레오, 헷오레오 -> 헷오레오 제거
     let result = inputMorphList.filter((item1, idx1)=>{
         return inputMorphList.findIndex((item2, idx2)=>{
@@ -131,14 +132,14 @@ const convertKorToEng = (inputList) => {
 export const calculate = (gene1, gene2, setResult, e, setParentsName1, setParentsName2) => {
     // gene1, gene2 예시) ["오레오", "스트라이프"] 또는 ["Oreo", "Stripe"]
 
-    // console.log(gene1);
-    // console.log(gene2);
+    console.log(gene1);
+    console.log(gene2);
 
     let geneEng1 = convertKorToEng(gene1);
     let geneEng2 = convertKorToEng(gene2);
 
-    // console.log(geneEng1);
-    // console.log(geneEng2);
+    console.log(geneEng1);
+    console.log(geneEng2);
 
     e.preventDefault(); // 이거 왜함?
     let parent1;
@@ -153,6 +154,11 @@ export const calculate = (gene1, gene2, setResult, e, setParentsName1, setParent
 
     geneList1 = checkName(geneEng1, alphaValues); // gnenList1 = {engName: oreo, alphaCode: A, character: super or het}, {engName: stripe, alphaCode: a}
     geneList2 = checkName(geneEng2, alphaValues);
+
+
+    // console.log 로 디버깅 하면 계산이 다 된 후에 출력되어서 디버깅이 어려움
+    // console.log(geneList1);
+    // console.log(geneList2);
 
     // 중복 체크 (부모1, 부모2 에서 중복되는 유전자가 있으면 같은 부모로 간주)
     for (let i = 0; i < geneList1.length; i++) {

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import Navbar from "../../Components/Common/Navbar";
-import { Body, Container } from "../../Components/Common/Body";
+import { Body, BodyContainer } from "../../Components/Common/Body";
 import TextEditor from "./TextEditor";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { postBoard, putBoard } from "../../Components/Container/getBoardApi";
@@ -93,7 +93,7 @@ export default function Write () {
     return (
         <>
             <Body>
-                <Container>
+                <BodyContainer>
                     <br></br>
                     <h1>
                         카페 글쓰기
@@ -126,7 +126,7 @@ export default function Write () {
                             <Button type="button" onClick={backToPage}>되돌아가기</Button>
                         </div>
                     </div>
-                </Container>
+                </BodyContainer>
             </Body>
         </>
     );

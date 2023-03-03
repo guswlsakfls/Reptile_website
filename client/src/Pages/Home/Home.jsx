@@ -1,6 +1,6 @@
 import { Footer } from "../../Components/Common/Footer";
 import { CardContainer } from "../../Components/Common/Card";
-import { Body, Container } from "../../Components/Common/Body";
+import { Body, NavContainer } from "../../Components/Common/Body";
 import { Header, HeaderTitle, HeaderBody, Divide, SubTitle } from "./Home.element";
 import { CardList } from "../../Components/Presentation/CardList";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ export default function Home() {
         <>
             <Navbar />
             <Body>
-                <Container>
+                <NavContainer>
                     <Link to="/morph">
                         <Header>
                             <HeaderTitle>
@@ -30,7 +30,7 @@ export default function Home() {
                     <CardContainer>
                         <CardList />
                     </CardContainer>
-                </Container>
+                </NavContainer>
                 <Footer>
                     Copyright c pablo 2022-2022<br/><br/>
                     광고 및 제휴 문의: guswlsakfls@gmail.com

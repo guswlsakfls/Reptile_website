@@ -1,4 +1,4 @@
-import { Body } from "../../Components/Common/Body"
+import { Body, BodyContainer } from "../../Components/Common/Body"
 import styled from "styled-components"
 import { CardButton } from "../../Components/Common/Button"
 import { useState, useEffect } from "react";
@@ -32,7 +32,7 @@ export default function CalMorph() {
         <>
             <Navbar />
             <Body>
-                <Div>
+                <BodyContainer>
                     <InputBox>
                         <h1>펫 테일게코 계산기</h1><br/>
                         <h2>번식할 때 짝을 이룰 두 부모 모프를 입력하면 계산기가 유전적 가능성을 표시합니다.</h2><br/>
@@ -111,7 +111,7 @@ export default function CalMorph() {
                             </ResultTableBody>
                         </ResultTable>
                     </ResultBox>
-                </Div>
+                </BodyContainer>
             </Body>
         </>
     );
