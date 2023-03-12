@@ -26,7 +26,7 @@ export default function CalMorph() {
         // setParentList2(parentsName2);
     }, [result]);
 
-    console.log(result);
+    // console.log(result);
 
     return (
         <>

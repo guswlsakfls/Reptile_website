@@ -264,6 +264,9 @@ export const calculate = (gene1, gene2, setResult, e, setParentsName1, setParent
             calRes.push(tmp);
         }
     }
+
+    console.log(calRes);
+
     // 총 유전자 경우의 수
     let totalLength = calRes.length;
     // console.log(calRes);
@@ -396,11 +399,24 @@ export const calculate = (gene1, gene2, setResult, e, setParentsName1, setParent
     let traitListLength = traitList.length;
 
     // 맨처음 나오는 모프 넣어 준다.
+    // visual 이름이 같으면 allCount 더해주고, 다르면 morphList에 추가
+    // 대표 모프 인덱스 찾기
     for (let i = 1; i < traitListLength; i++) {
         let flag = false;
         
         for (let j = 0; j < morphList.length; j++) {
-            if (morphList[j].visual === traitList[i].engName) {
+            // visual에 있는 리스트 모든 이름이 같으면 allCount 더해주고, 다르면 morphList에 추가
+            let visualLength = morphList[j].visual.length;
+            let traitLength = traitList[i].engName.length;
+            let count = 0;
+            for (let k = 0; k < visualLength; k++) {
+                for (let l = 0; l < traitLength; l++) {
+                    if (morphList[j].visual[k] === traitList[i].engName[l]) {
+                        count += 1;
+                    }
+                }
+            }
+            if (count === visualLength && count === traitLength) {
                 morphList[j].allCount += traitList[i].count;
                 flag = true;
                 break;
@@ -417,6 +433,9 @@ export const calculate = (gene1, gene2, setResult, e, setParentsName1, setParent
             morphIndex.push(i);
         }
     }
+
+    console.log(morphList);
+    console.log(traitList);
 
     // 대표 모프 het 계산
     // 대표 모프 뽑기 (여기서 hetGeneList 사용), hetGeneList 사용할 필요가 없나?
@@ -484,15 +503,15 @@ export const calculate = (gene1, gene2, setResult, e, setParentsName1, setParent
             });
         });
 
-        console.log(het100);
-        console.log(het66);
-        console.log(het50);
+        // console.log(het100);
+        // console.log(het66);
+        // console.log(het50);
         // het 100, 66, 50 순서대로 리스트 이어 붙이기
         morphList[i].hetName = [
             ...het100, ...het66, ...het50
         ];
     }
-    
+
     // 각 콤보 모프 확률 계산
     for (let i = 0; i < morphList.length; i++) {
         morphList[i].percent = (morphList[i].allCount / totalLength) * 100;
