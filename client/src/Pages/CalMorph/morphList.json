@@ -1,10 +1,5 @@
 [    
     {
-      "engName" : "Normal",
-      "korName" : "노말",
-      "type" : "dominant"
-    },
-    {
       "engName" : "Oreo",
       "korName" : "오레오",
       "type" : "recessive"

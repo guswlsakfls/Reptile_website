@@ -7,7 +7,6 @@ const wholeTextArray = [
   'Stripe',
   'Whiteout',
   'Ghost',
-  'Normal',
   'Caramel',
   '오레오',
   '제로',

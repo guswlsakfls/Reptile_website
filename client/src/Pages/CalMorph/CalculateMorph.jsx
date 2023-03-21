@@ -129,19 +129,18 @@ const convertKorToEng = (inputList) => {
 }
 
 // 자식 유전자 계산
-export const calculate = (gene1, gene2, setResult, e, setParentsName1, setParentsName2) => {
+export const calculate = (gene1, gene2, setResult, setParentsName1, setParentsName2) => {
     // gene1, gene2 예시) ["오레오", "스트라이프"] 또는 ["Oreo", "Stripe"]
 
-    console.log(gene1);
-    console.log(gene2);
+    // console.log(gene1);
+    // console.log(gene2);
 
     let geneEng1 = convertKorToEng(gene1);
     let geneEng2 = convertKorToEng(gene2);
 
-    console.log(geneEng1);
-    console.log(geneEng2);
+    // console.log(geneEng1);
+    // console.log(geneEng2);
 
-    e.preventDefault(); // 이거 왜함?
     let parent1;
     let parent2;
     let geneList1 = null;
@@ -491,7 +490,7 @@ export const calculate = (gene1, gene2, setResult, e, setParentsName1, setParent
             hetGeneList.forEach((hetGene) => {
                 if (item.alphaCode === hetGene.alphaCode) {
                     if (item.het === 100) {
-                        het100.push("100% 헷 " + hetGene.engName);
+                        het100.push("헷 " + hetGene.engName);
                     }
                     else if (item.het === 67) {
                         het66.push("66% 헷 " + hetGene.engName);

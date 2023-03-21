@@ -69,8 +69,12 @@ export default function CalMorph() {
                                 </Ul>
                             </InputContiner>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <CardButton onClick={(e) => {
-                                calculate(parentList1, parentList2, setResult, e, setParentsName1, setParentsName2)
+                            <CardButton onClick={() => {
+                                if (parentList1.length === 0 && parentList2.length === 0) {
+                                    alert("부, 모 중 하나 이상을 입력해주세요.");
+                                    return;
+                                }
+                                calculate(parentList1, parentList2, setResult, setParentsName1, setParentsName2)
                             } } >계산</CardButton>
                             &nbsp;
                             <CardButton onClick={(e) => {deletAllInput(e)}} >전체 삭제</CardButton>
