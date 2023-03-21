@@ -96,10 +96,14 @@ export default function CalMorph() {
                                     <ResultTableBodyRow key={index}>
                                         {/* <ResultTableBodyCol>{index + 1}</ResultTableBodyCol> */}
                                         <ResultTableBodyCol>
-                                            {item.visual.map((item, id) => (
-                                                <Li key={id}>
-                                                    {item}
-                                                </Li>
+                                            {/* 만약 item 이 없으면 노말 출력 */}
+                                            {item.visual.length === 0 ? 
+                                                <Li>
+                                                    {"노말"}
+                                                </Li> : item.visual.map((item, id) => (
+                                                    <Li key={id}>
+                                                        {item}
+                                                    </Li>
                                             ))}
                                             {item.hetName.map((item, id) => (
                                                 <Li key={id}>

@@ -33,7 +33,7 @@ const checkName = (gene, alphaValues) => {
 
     if (inputList.length === 0) {
         inputMorphList.push({
-            "engName": "Normal",
+            "engName": "노말",
             "alphaCode": 'N',
             "type": "dominant",
             "character": "Normal"
@@ -264,7 +264,7 @@ export const calculate = (gene1, gene2, setResult, setParentsName1, setParentsNa
         }
     }
 
-    console.log(calRes);
+    // console.log(calRes);
 
     // 총 유전자 경우의 수
     let totalLength = calRes.length;
@@ -355,14 +355,17 @@ export const calculate = (gene1, gene2, setResult, setParentsName1, setParentsNa
                     // character and 우성
                     // 하나가 대문자 이면
                     if (traitList[i].alphaCode[j] === traitList[i].alphaCode[j].toUpperCase()) {
-                        // 우성에서 마지막 알파벳이면
-                        if (maxLength === j + 1 || traitList[i].alphaCode[j] !== traitList[i].alphaCode[j + 1]) {
-                            tmp.push(mixGeneList[k].engName);
+                        // 우성에서 마지막 알파벳이거나 다음 알파벳이 같지 않으면
+                        if ( maxLength === j + 1 || traitList[i].alphaCode[j] !== traitList[i].alphaCode[j + 1]) {
+                            // 노말이 아니면
+                            if (traitList[i].alphaCode[j] !== "N")
+                                tmp.push(mixGeneList[k].engName);
                             break;
                         }
                         // 우성 대문자 두개면
                         else if (traitList[i].alphaCode[j] === traitList[i].alphaCode[j + 1]) {
-                            tmp.push("Super " + mixGeneList[k].engName);
+                            if (traitList[i].alphaCode[j] !== "N")
+                                tmp.push("슈퍼 " + mixGeneList[k].engName);
                             j += 1;
                             break;
                         }
@@ -433,8 +436,8 @@ export const calculate = (gene1, gene2, setResult, setParentsName1, setParentsNa
         }
     }
 
-    console.log(morphList);
-    console.log(traitList);
+    // console.log(morphList);
+    // console.log(traitList);
 
     // 대표 모프 het 계산
     // 대표 모프 뽑기 (여기서 hetGeneList 사용), hetGeneList 사용할 필요가 없나?
